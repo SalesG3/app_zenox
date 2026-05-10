@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { columnsGrid, dataForm } from '../engine/interfaces';
 
@@ -16,6 +16,8 @@ export class Subengine implements OnInit{
   
   @Input() subForm: dataForm[] = []
   @Input() subColumns: columnsGrid[] = [] 
+
+  @Output() syncSubGrid = new EventEmitter<any>
 
   subGrid: any[] = []
 
@@ -59,12 +61,20 @@ export class Subengine implements OnInit{
       this.subGrid[i].ID = i + 1
     }
 
+    this.syncSubGrid.emit({
+      table: this.table,
+      subGrid: this.subGrid
+    })
     this.cdr.detectChanges()
   }
 
   btnSalvar(){
     this.dataSub.ID = this.subGrid.length + 1
     this.subGrid = [ ...this.subGrid, ...[this.dataSub] ]
+    this.syncSubGrid.emit({
+      table: this.table,
+      subGrid: this.subGrid
+    })
     this.btnCancelar()
   }
 
@@ -72,6 +82,10 @@ export class Subengine implements OnInit{
     let index = this.subGrid.findIndex(i => i.ID == this.dataSub.ID)
 
     this.subGrid[index] = this.dataSub
+    this.syncSubGrid.emit({
+      table: this.table,
+      subGrid: this.subGrid
+    })
     this.btnCancelar()
   }
 }

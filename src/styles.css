@@ -7,7 +7,7 @@ body{
     background-color: var(--corFundo);
 }
 
-.input-group{
+.input-group, .login-group{
     margin: .25rem 0rem;
 }
 
@@ -152,7 +152,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-form, .subForm{
+.dataForm, .subForm{
     display: flex;
     flex-wrap: wrap;
 }

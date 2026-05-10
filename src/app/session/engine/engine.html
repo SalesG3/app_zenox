@@ -104,7 +104,7 @@
     </div>
 
     <div class="container" *ngIf="dataScreen">
-        <form #ngdataForm="ngForm">
+        <form #ngdataForm="ngForm" class="dataForm">
             <div class="form-group" *ngFor="let i of dataForm">
 
                 <div class="input-group" [ngSwitch]="i.type" [style.width.rem]="i.width" [style.height.rem]="i.height">
@@ -153,6 +153,7 @@
                         [(ngModel)]="dataRow[i.field]"
                         [disabled]="dataConsult"
                         [required]="i.required"
+                        (focus)="lookup(i.table || '')"
                         >
                             <option value="" hidden></option>
                             <option *ngFor="let x of dataLookups[i.table || '']" [value]="x.ID">
@@ -203,6 +204,7 @@
                         [dataSub]="dataSub[i.field]"
                         [subForm]="subComponent[i.field].subForm"
                         [subColumns]="subComponent[i.field].subColumns"
+                        (syncSubGrid)="syncSubGrid($event)"
                         >
                     
                         </app-subengine>

@@ -26,6 +26,7 @@ export class Engine implements OnInit {
 
   dataError: string = ''
   dataGrid: any[] = []
+  subGrids: any = {}
   dataLookups: any = {}
   dataClean: any = {}
   
@@ -68,7 +69,7 @@ export class Engine implements OnInit {
       data = await this.service.update(this.table, this.dataRow)
     }
     else{
-      data = await this.service.insert(this.table, this.dataRow)
+      data = await this.service.insert(this.table, this.dataRow, this.subGrids)
     }
 
     alert(data.message)
@@ -124,6 +125,20 @@ export class Engine implements OnInit {
       await this.btnBuscar()
       this.cdr.detectChanges()
     }
+  }
+
+  async lookup(table: string){
+    let data = await this.service.lookup(table)
+
+    this.dataLookups[table] = data
+
+    console.log(this.dataLookups)
+    this.cdr.detectChanges()
+  }
+
+  syncSubGrid(data: any){
+    this.subGrids[data.table] = data.subGrid
+    console.log(this.subGrids)
   }
 
 }

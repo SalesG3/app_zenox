@@ -99,9 +99,10 @@ export class Produtos {
     {
       label: "Fornecedor",
       type: "lookup",
-      field: "ID_FORNECEDOR",
+      field: "ID_PESSOA",
       width: 32,
-      required: false
+      required: false,
+      table: "PESSOAS"
     },
     {
       label: "Marca",
@@ -130,7 +131,7 @@ export class Produtos {
 
   subComponent: any = {
     "PRODUTO_ESTOQUE": {
-
+      
       subColumns: [
         {
           name: "Data",

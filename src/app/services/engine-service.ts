@@ -24,7 +24,7 @@ export class EngineService {
     return data
   }
 
-  async insert(table: string, dataRow: any){
+  async insert(table: string, dataRow: any, subGrid: any){
 
     let req = await fetch(environment.api + 'insert/' + table, {
       method: "POST",
@@ -32,7 +32,7 @@ export class EngineService {
         "Content-Type":"application/json",
         "x_session": this.session.X_SESSION
       },
-      body: JSON.stringify(dataRow)
+      body: JSON.stringify({dataRow: dataRow, subGrid: subGrid})
     })
 
     let data = await req.json()
@@ -101,6 +101,21 @@ export class EngineService {
         x_session: this.session.X_SESSION
       },
       body: JSON.stringify(dataRow)
+    })
+
+    let data = await req.json()
+
+    return data
+  }
+
+  async lookup(table: string){
+
+    let req = await fetch(environment.api + 'lookup/' + table, {
+      method: "GET",
+      headers: {
+        "Content-Type":"application/json",
+        x_session: this.session.X_SESSION
+      }
     })
 
     let data = await req.json()
