@@ -54,7 +54,7 @@ export class Engine implements OnInit {
   async btnIncluir(){
     //let data = await this.service.codigo(this.table)
 
-    //this.dataRow = { ...this.dataClean, ...data }
+    this.dataRow = { ...this.dataClean/*, ...data*/ }
 
     this.dataConsult = false
     this.dataScreen = true
@@ -82,6 +82,12 @@ export class Engine implements OnInit {
 
   btnCancelar(){
     this.dataRow = { ...this.dataClean,  ...{[this.dataKey]: this.dataRow[this.dataKey]} }
+
+    Object.keys(this.subGrids).forEach(i => {
+      this.dataSub[i].ID = 0
+      this.subGrids[i] = []
+    })
+
     this.dataScreen = false
     this.dataConsult = false
     this.dataUpdate = false
@@ -97,9 +103,15 @@ export class Engine implements OnInit {
   }
 
   async btnConsultar(){
-    let data = await this.service.consultar(this.table, this.dataRow, this.dataKey)
+    let data = await this.service.consultar(this.table, { [this.dataKey]: this.dataRow[this.dataKey]}, this.subComponent)
 
-    this.dataRow = data
+    this.dataRow = data.dataRow
+    this.subGrids = data.subGrid
+
+    Object.keys(this.subGrids).forEach(i => {
+      this.subGrids[i].forEach((x: any, n: number) => x.ID = n +1 )
+    })
+
     this.dataScreen = true
     this.dataConsult = true
     this.cdr.detectChanges()
@@ -130,7 +142,6 @@ export class Engine implements OnInit {
   async lookup(table: string){
     let data = await this.service.lookup(table)
     this.dataLookups[table] = data
-    console.log(this.subGrids)
     this.cdr.detectChanges()
   }
 

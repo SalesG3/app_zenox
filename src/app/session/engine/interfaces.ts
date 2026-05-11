@@ -1,7 +1,8 @@
 export interface columnsGrid {
     name: string,
     field: string,
-    width: number
+    width: number,
+    type?: "date"|"sn_ativo"
 }
 
 export interface dataForm{

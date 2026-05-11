@@ -200,6 +200,7 @@
 
                     <ng-container *ngSwitchCase="'subComponent'" >
                         <app-subengine
+                        [subConsult]="dataConsult"
                         [table]="i.field"
                         [dataSub]="dataSub[i.field]"
                         [subForm]="subComponent[i.field].subForm"

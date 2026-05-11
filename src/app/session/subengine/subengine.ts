@@ -21,7 +21,7 @@ export class Subengine implements OnInit{
   @Output() subGridChange = new EventEmitter<any[]>()
 
   subScreen: boolean = false
-  subConsult: boolean = false
+  @Input() subConsult: boolean = false
   subUpdate: boolean = false
   subClean: any = {}
 

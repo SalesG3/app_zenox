@@ -22,7 +22,6 @@ export class Produtos {
 
   dataSub: any = {
     "PRODUTO_ESTOQUE": {
-      ID_PRODUTO_ESTOQUE: 0,
       ID_PRODUTO: 0,
       DT_INICIO: '',
       MIN_ESTOQUE: '',
@@ -136,7 +135,8 @@ export class Produtos {
         {
           name: "Data",
           field: "DT_INICIO",
-          width: 8
+          width: 8,
+          type: 'date'
         },
         {
           name: "Estoque Min",

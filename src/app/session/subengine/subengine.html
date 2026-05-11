@@ -13,8 +13,15 @@
             (click)="dataSub.ID = i.ID"
             [ngClass]="{'selected' : dataSub.ID === i.ID}"
             >
-                <td *ngFor="let c of subColumns">
-                    {{i[c.field]}}
+                <td *ngFor="let c of subColumns" [ngSwitch]="c.type">
+                    
+                    <ng-container *ngSwitchCase="'date'">
+                        {{ i[c.field] | date:'dd/MM/yyyy' }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        {{i[c.field]}}
+                    </ng-container>
                 </td>
             </tr>
         </tbody>
@@ -24,6 +31,7 @@
         <button
         class="subCrud"
         (click)="btnIncluir()"
+        [disabled]="subConsult"
         >
             Incluir
         </button>
@@ -31,7 +39,7 @@
         <button
         class="subCrud"
         (click)="btnAlterar()"
-        [disabled]="!dataSub.ID"
+        [disabled]="!dataSub.ID || subConsult"
         >
             Alterar
         </button>
@@ -39,7 +47,7 @@
         <button
         class="subCrud"
         (click)="btnExcluir()"
-        [disabled]="!dataSub.ID"
+        [disabled]="!dataSub.ID || subConsult"
         >
             Excluir
         </button>
@@ -87,6 +95,7 @@
         <button
         class="subCrud"
         (click)="subUpdate ? btnAlteracao() : btnSalvar()"
+        [disabled]="subConsult"
         >
             {{ subUpdate ? "Alterar" : "Salvar" }}
         </button>

@@ -56,9 +56,7 @@ export class EngineService {
     return data
   }
 
-  async consultar(table: string, dataRow: any, dataKey: string){
-
-    let body = { [dataKey]: dataRow[dataKey] }
+  async consultar(table: string, dataRow: any, subGrid: any){
 
     let req = await fetch(environment.api + 'consult/' + table, {
       method: "POST",
@@ -66,7 +64,7 @@ export class EngineService {
         "Content-Type":"application/json",
         "x_session":this.session.X_SESSION
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({ dataRow: dataRow, subGrid: Object.keys(subGrid) })
     })
 
     let data = await req.json()
