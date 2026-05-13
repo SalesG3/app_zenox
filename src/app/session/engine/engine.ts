@@ -67,6 +67,11 @@ export class Engine implements OnInit {
       }
     }
 
+    Object.keys(this.subGrids).forEach(i => {
+      this.dataSub[i].ID = 0
+      this.subGrids[i] = []
+    })
+
     this.dataConsult = false
     this.dataScreen = true
     this.cdr.detectChanges()
@@ -77,7 +82,7 @@ export class Engine implements OnInit {
     this.dataError = ''
 
     if(this.dataUpdate){
-      data = await this.service.update(this.table, this.dataRow)
+      data = await this.service.update(this.table, this.dataRow, this.subGrids)
     }
     else{
       data = await this.service.insert(this.table, this.dataRow, this.subGrids)
@@ -145,7 +150,7 @@ export class Engine implements OnInit {
   }
 
   async btnExcluir(){
-    let data = await this.service.excluir(this.table, this.dataRow, this.dataKey)
+    let data = await this.service.excluir(this.table, {[this.dataKey]: this.dataRow[this.dataKey]}, this.subGrids)
 
     alert(data.message)
     if(data.sucess){

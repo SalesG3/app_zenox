@@ -44,16 +44,13 @@ export class Produtos {
     {
       name: "Tipo",
       field: "TP_PRODUTO",
-      width: 12
+      width: 12,
+      type: 'select',
+      options: {"M": "Matéria-Prima", "R":"Revenda", "F":"Fabricado"}
     },
     {
       name: "Un Medida",
       field: "UN_MEDIDA",
-      width: 8
-    },
-    {
-      name: "Ativo",
-      field: "SN_ATIVO",
       width: 8
     }
   ]

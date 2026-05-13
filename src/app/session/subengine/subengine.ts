@@ -32,6 +32,7 @@ export class Subengine implements OnInit{
   }
 
   btnIncluir(){
+    this.dataSub = { ...this.subClean, ...{ ID: this.dataSub.ID }}
     this.subScreen = true
     this.cdr.detectChanges()
   }

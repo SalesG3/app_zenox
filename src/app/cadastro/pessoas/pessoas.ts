@@ -42,7 +42,8 @@ export class Pessoas {
     {
       name: "Ativo",
       field: "SN_ATIVO",
-      width: 8
+      width: 8,
+      type: 'sn_ativo'
     }
   ]
 

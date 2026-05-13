@@ -95,8 +95,23 @@
                 (click)="dataRow[dataKey] = item[dataKey]"
                 [ngClass]="{'selected' : dataRow[dataKey] === item[dataKey]}"
                 >
-                    <td *ngFor="let i of columnsGrid">
-                        {{item[i.field]}}
+                    <td *ngFor="let c of columnsGrid" [ngSwitch]="c.type">
+
+                        <ng-container *ngSwitchCase="'select'">
+                            {{ c.options?.[item[c.field]] }}
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'sn_ativo'">
+                            {{ item[c.field] == 1 ? "Sim" : "Não" }}
+                        </ng-container>
+                    
+                        <ng-container *ngSwitchCase="'date'">
+                            {{ item[c.field] | date:'dd/MM/yyyy' }}
+                        </ng-container>
+
+                        <ng-container *ngSwitchDefault>
+                            {{item[c.field]}}
+                        </ng-container>
                     </td>
                 </tr>
             </tbody>

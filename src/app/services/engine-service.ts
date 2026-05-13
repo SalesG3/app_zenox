@@ -73,9 +73,7 @@ export class EngineService {
     return data
   }
 
-  async excluir(table: string, dataRow: any, dataKey: string){
-
-    let body = { [dataKey]: dataRow[dataKey] }
+  async excluir(table: string, dataRow: any, subGrid: any){
 
     let req = await fetch(environment.api + 'delete/' + table, {
       method: "POST",
@@ -83,7 +81,7 @@ export class EngineService {
         "Content-Type":"application/json",
         x_session: this.session.X_SESSION
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({dataRow: dataRow, subGrid: subGrid})
     })
 
     let data = await req.json()
@@ -91,7 +89,7 @@ export class EngineService {
     return data
   }
 
-  async update(table: string, dataRow: any){
+  async update(table: string, dataRow: any, subGrid: any){
 
     let req = await fetch(environment.api + 'update/' + table, {
       method: "POST",
@@ -99,7 +97,7 @@ export class EngineService {
         "Content-Type":"application/json",
         x_session: this.session.X_SESSION
       },
-      body: JSON.stringify(dataRow)
+      body: JSON.stringify({dataRow: dataRow, subGrid: subGrid})
     })
 
     let data = await req.json()

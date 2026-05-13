@@ -2,7 +2,8 @@ export interface columnsGrid {
     name: string,
     field: string,
     width: number,
-    type?: "date"|"sn_ativo"
+    type?: "date"|"sn_ativo"|"select",
+    options?: {[ID: string]: string}
 }
 
 export interface dataForm{
