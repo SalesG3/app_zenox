@@ -153,10 +153,10 @@
                         [(ngModel)]="dataRow[i.field]"
                         [disabled]="dataConsult"
                         [required]="i.required"
-                        (focus)="lookup(i.table || '')"
+                        (focus)="lookup(i.lookup)"
                         >
                             <option value="" hidden></option>
-                            <option *ngFor="let x of dataLookups[i.table || '']" [value]="x.ID">
+                            <option *ngFor="let x of dataLookups[i.lookup?.table || '']" [value]="x.ID">
                                 {{x.DS}}
                             </option>
                         </select>

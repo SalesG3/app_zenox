@@ -47,14 +47,25 @@ export class Engine implements OnInit {
   ngOnInit(): void {
     this.dataClean = { ...this.dataRow }
 
+    for(let i of this.dataForm){
+      if(i.type == 'lookup'){
+        this.lookup(i.lookup)
+      }
+    }
+
     this.dataSearch.DATAKEY = this.dataKey
     this.dataSearch.COLUMNS = this.columnsGrid.map(i => i.field)
   }
 
   async btnIncluir(){
-    //let data = await this.service.codigo(this.table)
+    this.dataRow = { ...this.dataClean }
 
-    this.dataRow = { ...this.dataClean/*, ...data*/ }
+    for(let i of this.dataForm){
+      if(i.autocomplete == 'codigo'){
+        let data = await this.service.codigo(this.table, i.field)
+        this.dataRow = { ...this.dataRow, ...data }
+      }
+    }
 
     this.dataConsult = false
     this.dataScreen = true
@@ -118,9 +129,15 @@ export class Engine implements OnInit {
   }
 
   async btnAlterar(){
-    let data = await this.service.consultar(this.table, this.dataRow, this.dataKey)
+    let data = await this.service.consultar(this.table, { [this.dataKey]: this.dataRow[this.dataKey]}, this.subComponent)
 
-    this.dataRow = data
+    this.dataRow = data.dataRow
+    this.subGrids = data.subGrid
+
+    Object.keys(this.subGrids).forEach(i => {
+      this.subGrids[i].forEach((x: any, n: number) => x.ID = n +1 )
+    })
+
     this.dataConsult = false
     this.dataUpdate = true
     this.dataScreen = true
@@ -139,9 +156,9 @@ export class Engine implements OnInit {
     }
   }
 
-  async lookup(table: string){
-    let data = await this.service.lookup(table)
-    this.dataLookups[table] = data
+  async lookup(lookup: any){
+    let data = await this.service.lookup(lookup)
+    this.dataLookups[lookup.table] = data
     this.cdr.detectChanges()
   }
 

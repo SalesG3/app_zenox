@@ -64,7 +64,8 @@ export class Produtos {
       type: "number",
       field: "CD_PRODUTO",
       width: 8,
-      required: true
+      required: true,
+      autocomplete: 'codigo'
     },
     {
       label: "Nome",
@@ -101,7 +102,7 @@ export class Produtos {
       field: "ID_PESSOA",
       width: 32,
       required: false,
-      table: "PESSOAS"
+      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO']}
     },
     {
       label: "Marca",

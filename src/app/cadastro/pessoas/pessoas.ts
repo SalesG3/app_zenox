@@ -53,6 +53,7 @@ export class Pessoas {
       field: "CD_PESSOA",
       width: 8,
       required: true,
+      autocomplete: 'codigo'
     },
     {
       label: "Tipo",

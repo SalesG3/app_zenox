@@ -9,14 +9,15 @@ export class EngineService {
 
   constructor(private session: Session){ }
 
-  async codigo(table: string){
+  async codigo(table: string, field: string){
     
     let req = await fetch(environment.api + 'codigo/' + table, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type":"application/json",
         "X_SESSION": this.session.X_SESSION
-      }
+      },
+      body: JSON.stringify({field: field})
     })
 
     let data = await req.json()
@@ -106,14 +107,16 @@ export class EngineService {
     return data
   }
 
-  async lookup(table: string){
+  async lookup(lookup: any){
 
-    let req = await fetch(environment.api + 'lookup/' + table, {
-      method: "GET",
+
+    let req = await fetch(environment.api + 'lookup/' + lookup.table, {
+      method: "POST",
       headers: {
         "Content-Type":"application/json",
         x_session: this.session.X_SESSION
-      }
+      },
+      body: JSON.stringify(lookup)
     })
 
     let data = await req.json()

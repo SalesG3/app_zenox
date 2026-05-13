@@ -13,8 +13,8 @@ export interface dataForm{
     height?: number,
     required: boolean,
     options?: options[],
-    table?: string,
-    autocomplete?: 'incluir'|'change',
+    lookup?: {table: string, ID: string, DS: string[]},
+    autocomplete?: 'codigo'|'change',
 }
 
 export interface options{
