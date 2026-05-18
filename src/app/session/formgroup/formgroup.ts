@@ -57,6 +57,7 @@ export class Formgroup {
 
     reader.onload = () => {
       this.dataRow[this.i.field] = reader.result as string
+      this.dataRow['SN_ANEXO'] = true
     }
 
     reader.readAsDataURL(file)

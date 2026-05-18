@@ -124,7 +124,13 @@ export class Engine implements OnInit {
   }
 
   async btnConsultar(){
-    let data = await this.service.consultar(this.table, { [this.dataKey]: this.dataRow[this.dataKey]}, this.subComponent)
+    let subColumns: any = { }
+
+    for(let i in this.dataSub){
+      subColumns[i] = Object.keys(this.dataSub[i]).filter(c => c !== 'ANEXO' && c !== 'ID')
+    }
+
+    let data = await this.service.consultar(this.table, this.dataRow, subColumns)
 
     this.dataRow = data.dataRow
     this.subGrids = data.subGrid
@@ -139,7 +145,13 @@ export class Engine implements OnInit {
   }
 
   async btnAlterar(){
-    let data = await this.service.consultar(this.table, { [this.dataKey]: this.dataRow[this.dataKey]}, this.subComponent)
+    let subColumns: any = { }
+
+    for(let i in this.dataSub){
+      subColumns[i] = Object.keys(this.dataSub[i]).filter(c => c !== 'ANEXO' && c !== 'ID')
+    }
+
+    let data = await this.service.consultar(this.table, this.dataRow, subColumns)
 
     this.dataRow = data.dataRow
     this.subGrids = data.subGrid

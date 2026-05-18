@@ -65,7 +65,7 @@ export class EngineService {
         "Content-Type":"application/json",
         "x_session":this.session.X_SESSION
       },
-      body: JSON.stringify({ dataRow: dataRow, subGrid: Object.keys(subGrid) })
+      body: JSON.stringify({ dataRow: dataRow, subGrid: subGrid })
     })
 
     let data = await req.json()

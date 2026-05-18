@@ -41,7 +41,8 @@ export class Financeiro {
       DT_DOCUMENTO: '',
       TP_DOCUMENTO: '',
       DS_DOCUMENTO: '',
-      ANEXO: ''
+      ANEXO: '',
+      SN_ANEXO: false
     }
   }
 
@@ -172,7 +173,18 @@ export class Financeiro {
         {
           name: "Data",
           field: "DT_DOCUMENTO",
+          width: 8,
+          type: 'date'
+        },
+        {
+          name: "Tipo",
+          field: "TP_DOCUMENTO",
           width: 8
+        },
+        {
+          name: "Descrição",
+          field: "DS_DOCUMENTO",
+          width: 12
         }
       ],
       subForm: [
@@ -199,7 +211,7 @@ export class Financeiro {
           label: "Anexo",
           type: "file",
           field: "ANEXO",
-          width: 8
+          width: 32
         }
       ]
     }
