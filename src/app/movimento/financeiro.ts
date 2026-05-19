@@ -103,7 +103,13 @@ export class Financeiro {
       type: "lookup",
       field: "ID_CATEGORIA",
       width: 14,
-      lookup: { table: "CATEGORIA_DETALHE", ID: "ID_CATEGORIA_DETALHE", DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"], joins: ["CATEGORIAS"]}
+      lookup: { 
+        table: "CATEGORIA_DETALHE",
+        ID: "ID_CATEGORIA_DETALHE",
+        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
+        joins: ["CATEGORIAS"],
+        where: "TP_CATEGORIA = 'F'"
+      }
     },
     {
       label: "Status",
@@ -118,7 +124,13 @@ export class Financeiro {
       type: "lookup",
       field: "ID_CONTRATO",
       width: 17,
-      lookup: { "table": "CONTRATOS", ID: "ID_CONTRATO", DS: ["CD_CONTRATO","NM_PESSOA"], joins: ["PESSOAS"]},
+      lookup: {
+        "table": "CONTRATOS",
+        ID: "ID_CONTRATO",
+        DS: ["CD_CONTRATO","NM_PESSOA"],
+        joins: ["PESSOAS"],
+        where: "CD_STATUS = 'A'"
+      },
       autocomplete: {type: 'change', fill: ["ID_PESSOA"]}
     },
     {
