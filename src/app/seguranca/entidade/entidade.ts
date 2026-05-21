@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from "ngx-mask";
 import { dataForm, dataRow } from '../../session/engine/interfaces';
 import { EngineService } from '../../services/engine-service';
 import { Formgroup } from '../../session/formgroup/formgroup';
+import { Session } from '../../services/session';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-entidade',
@@ -12,25 +14,29 @@ import { Formgroup } from '../../session/formgroup/formgroup';
   templateUrl: './entidade.html',
   styleUrl: './entidade.css',
 })
-export class Entidade {
+export class Entidade implements OnInit{
 
   compTitle: string = 'Entidade Modelo'
 
   dataLookups: any = { }
 
-  dataConsult: boolean = false
-  constructor(private service: EngineService, private cdr: ChangeDetectorRef){ }
+  dataConsult: boolean = true
+  constructor(private service: EngineService, private cdr: ChangeDetectorRef, private session: Session){ }
+
+  async ngOnInit() {
+    this.btnConsultar()
+  }
 
   dataRow: any = {
     ID_ENTIDADE: 0,
-    CD_ENTIDADE: '',
+    CNPJ: '',
     NM_ENTIDADE: '',
     DS_ENTIDADE: '',
-    IMG_ENTIDADE: '',
     DS_CIDADE: '',
     UF_ENTIDADE: '',
     DS_BAIRRO: '',
     DS_ENDERECO: '',
+    ANEXO: '',
     SN_ANEXO: false
   }
 
@@ -39,7 +45,7 @@ export class Entidade {
       label: "CNPJ",
       type: "text",
       width: 10,
-      field: "CD_ENTIDADE",
+      field: "CNPJ",
       mask: "00.000.000/0000-00",
       required: true
     },
@@ -60,7 +66,7 @@ export class Entidade {
     {
       label: "Logo",
       type: "img",
-      field: "IMG_ENTIDADE",
+      field: "ANEXO",
       width: 9
     },
     {
@@ -120,9 +126,46 @@ export class Entidade {
     console.log(data)
   }
 
+  btnAlterar(){
+    this.dataConsult = false
+    this.cdr.detectChanges()
+  }
+
+  async btnConsultar(){
+    let req = await fetch(environment.api + `consult/entidades`,{
+          method: "GET",
+          headers: {
+            "Content-Type":"application/json",
+            x_session: this.session.X_SESSION
+          }
+        })
+    
+        let data = await req.json()
+
+    this.dataRow = data
+
+    this.dataConsult = true
+    this.cdr.detectChanges()
+  }
+
   async lookup(lookup: any){
     let data = await this.service.lookup(lookup)
     this.dataLookups[lookup.table] = data
     this.cdr.detectChanges()
+  }
+
+  btnCancelar(){
+    this.dataConsult = true
+    this.cdr.detectChanges()
+  }
+
+  async btnSalvar(){
+    let data = await this.service.update("ENTIDADES", this.dataRow, {})
+
+    alert(data.message)
+
+    if(data.sucess){
+      this.btnCancelar()
+    }
   }
 }

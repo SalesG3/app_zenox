@@ -7,9 +7,27 @@
 
     <div class="tools">
         <button
+        *ngIf="dataConsult"
         class="crud"
+        (click)="btnAlterar()"
         >
             Alterar
+        </button>
+
+        <button
+        *ngIf="!dataConsult"
+        class="crud"
+        (click)="btnSalvar()"
+        >
+            Salvar
+        </button>
+
+        <button
+        *ngIf="!dataConsult"
+        class="crud"
+        (click)="btnCancelar()"
+        >
+            Cancelar
         </button>
     </div>
 
