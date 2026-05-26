@@ -1,51 +1,61 @@
-<section class="menu-component">
-    <div class="menu-header">
+<section class="session-component">
+    <div class="menu-component">
+        <div class="menu-header">
 
-        <img src="globe.svg" alt="logo.svg" class="menu-logo">
-
-        <span class="menu-title">
-            Zeno-X - ERP
-        </span>
-
-    </div>
-
-    <div class="menu-links">
-
-        <div class="folder-container" *ngFor="let f of menuEngine">
-
-            <div class="folder-header" (click)="openFolder(f)">
-                <i [class]="f.icon" class="folder-icon"></i>
-                <strong class="folder-label">{{ f.folder }}</strong>
+            <div class="menu-img">
+                <i class="fa-solid fa-compass-drafting"></i>
             </div>
 
-            <div class="folder-itens" *ngIf="f.open">
-                <a *ngFor="let i of f.itens"
-                [routerLink]="'./' + f.route + '/' + i.route"
-                class="folder-item"
-                routerLinkActive="active-link"
-                skipLocationChange
-                >
-                    <i [class]="i.icon" class="item-icon"></i>
-                    <span class="item-label">{{ i.label }}</span>
-                </a>
+            <div class="menu-title">
+                Zeno-X MEI
+            </div>
+        </div>
+
+        <div class="menu-routes">
+            <a class="folder-header" routerLink="./dashboard" skipLocationChange>
+                <i class="fa-solid fa-chart-column folder-icon folder-item"></i>
+                <strong class="folder-label">Dashboard</strong>
+            </a>
+
+            <div class="folder-container" *ngFor="let f of menuEngine">
+
+                <div class="folder-header" (click)="openFolder(f)">
+                    <i [class]="f.icon" class="folder-icon"></i>
+                    <strong class="folder-label">{{ f.folder }}</strong>
+                </div>
+
+                <div class="folder-itens" *ngIf="f.open">
+                    <a *ngFor="let i of f.itens"
+                    [routerLink]="'./' + f.route + '/' + i.route"
+                    class="folder-item"
+                    routerLinkActive="active-link"
+                    skipLocationChange
+                    >
+                        <i [class]="i.icon" class="item-icon"></i>
+                        <span class="item-label">{{ i.label }}</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</section>
 
-<section class="router-component">
-    <div class="router-header">
-        <div class="router-info">
-            <span class="nm_entidade">
-                {{ NM_ENTIDADE }}
-            </span>
-            
-            <br>
+    <div class="router-component">
+        <div class="router-header">
+            <div class="router-info">
+                <span class="router-entidade">
+                    {{ NM_ENTIDADE }}
+                </span>
+                
+                <br>
 
-            <span class="nm_usuario">
-                Usuário: {{ NM_USUARIO }} | Exercício: {{ ID_ANO }}
-            </span>
+                <span class="router-usuario">
+                    Usuário: {{ NM_USUARIO }} | Exercício: {{ ID_ANO }}
+                </span>
+            </div>
+        </div>
+
+        <div class="router-outlet">
+            <router-outlet></router-outlet>
         </div>
     </div>
-    <router-outlet></router-outlet>
 </section>

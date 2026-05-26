@@ -58,7 +58,7 @@ export class Produtos {
       field: "TP_PRODUTO",
       width: 12,
       type: 'select',
-      options: {"M": "Matéria-Prima", "R":"Revenda", "F":"Fabricado"}
+      options: {"M": "Matéria-Prima", "R":"Revenda", "P":"Produzido", "S":"Serviço"}
     },
     {
       name: "Un Medida",
@@ -89,7 +89,7 @@ export class Produtos {
       field: "TP_PRODUTO",
       width: 12,
       required: true,
-      options: [{ID: "M", DS: "Matéria-Prima"}, {ID: "R", DS: "Revenda"}, {ID: "F", DS: "Fabricado"}]
+      options: [{ID: "M", DS: "Matéria-Prima"}, {ID: "R", DS: "Revenda"}, {ID: "P", DS: "Produzido"}, {ID: "S", DS: "Serviço"}]
     },
     {
       label: "Código de Barras",

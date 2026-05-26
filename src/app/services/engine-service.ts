@@ -152,4 +152,20 @@ export class EngineService {
 
     return data
   }
+
+  async widgetReq(table: string){
+
+    let req = await fetch(environment.api + 'dashboard/' + table, {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json",
+        x_session: this.session.X_SESSION
+      },
+      body: JSON.stringify({})
+    })
+
+    let data = await req.json()
+
+    return data
+  }
 }

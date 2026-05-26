@@ -42,7 +42,7 @@ export class Subengine implements OnInit{
 
     for(let i of this.subForm){
       if(i.autocomplete?.type == 'codigo'){
-        this.dataSub[i.field] = this.subGrid ? Math.max(...this.subGrid.map((x: any) => Number(x[i.field])))  + 1 : 1
+        this.dataSub[i.field] = this.subGrid.length ? Math.max(...this.subGrid.map((x: any) => Number(x[i.field])))  + 1 : 1
       }
 
       if(i.autocomplete?.type == 'today'){

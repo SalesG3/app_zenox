@@ -58,7 +58,7 @@ export class Contratos {
     {
       name: "Credor",
       field: "ID_PESSOA",
-      width: 24,
+      width: 32,
       type: 'lookup',
       table: 'PESSOAS'
     },

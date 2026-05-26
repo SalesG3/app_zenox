@@ -1,0 +1,43 @@
+.card-box{
+    border: 1px solid lightblue;
+    margin: .5rem;
+    width: 24rem;
+    height: 12.5rem;
+
+    border-radius: 1rem;
+    border-left: 5px solid cornflowerblue;
+    background-color: white;
+    box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, .5);
+}
+
+.card-title{
+    display: inline-block;
+    margin: .25rem .75rem;
+    font: bold .95rem 'Segoe UI';
+}
+
+.card-container{
+    height: 9rem;
+    border-bottom: 1px solid lightgray;
+    overflow-y: scroll;
+}
+
+.card-table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    font: normal .8rem 'Segoe UI';
+
+
+    & td, th{
+        border: 1px solid lightgray;
+        padding: .15rem .25rem;
+    }
+}
+
+.card-footer{
+    font: bold .95rem 'Segoe UI';
+    text-align: right;
+    margin: .15rem .5rem;
+}

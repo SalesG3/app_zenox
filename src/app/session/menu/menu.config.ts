@@ -19,7 +19,7 @@ export const menuEngine: menuEngine[] = [
             { label: "Contas Bancárias", route: "contas", icon: "fa-solid fa-money-check-dollar", component: Contas },
             { label: "Contratos & Aditivos", route: "contratos", icon: "fa-solid fa-briefcase", component: Contratos },
             { label: "Credores & Fornecedores", route: "pessoas", icon: "fa-solid fa-address-book", component: Pessoas },
-            { label: "Produtos e Serviços", route: "produtos", icon: "fa-solid fa-boxes-packing", component: Produtos },
+            { label: "Produtos & Serviços", route: "produtos", icon: "fa-solid fa-boxes-packing", component: Produtos },
         ],
     },
     {

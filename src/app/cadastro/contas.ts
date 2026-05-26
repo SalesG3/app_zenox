@@ -48,7 +48,7 @@ export class Contas {
     {
       name: "Descrição",
       field: "DS_CONTA",
-      width: 24
+      width: 48
     },
     {
       name: "Ativo",

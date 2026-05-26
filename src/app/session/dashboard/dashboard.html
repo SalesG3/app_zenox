@@ -1,1 +1,15 @@
-<p>dashboard works!</p>
+<section class="component">
+    <div class="dashboard-box">
+        <div *ngFor="let i of widgets">
+            <app-default
+            [title]="i.title"
+            [table]="i.table"
+            [columnsGrid]="i.columnsGrid"
+            [totalizar]="i.totalizar"
+            >
+            </app-default>
+
+        </div>
+    </div>
+
+</section>

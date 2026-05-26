@@ -65,7 +65,7 @@ export class Categorias {
     {
       name: "Descrição",
       field: "NM_CATEGORIA",
-      width: 24
+      width: 48
     },
     {
       name: "Ativo",
@@ -109,21 +109,21 @@ export class Categorias {
       label: "Histórico",
       type: "textarea",
       field: "HISTORICO",
-      width: 75,
+      width: 70,
       height: 4
     },
     {
       label: "Detalhamento",
       type: "subComponent",
       field: "CATEGORIA_DETALHE",
-      width: 37.15,
+      width: 34.5,
       height: 15
     },
     {
       label: "Orçamento",
       type: "subComponent",
       field: "CATEGORIA_ORCAMENTO",
-      width: 37.15,
+      width: 34.5,
       height: 15
     }
   ]
@@ -161,7 +161,7 @@ export class Categorias {
           label: "Descrição",
           type: "text",
           field: "NM_DETALHE",
-          width: 26,
+          width: 22,
           required: true
         },
         {
@@ -210,7 +210,7 @@ export class Categorias {
           label: "Obervação",
           type: "text",
           field: "DS_ORCAMENTO",
-          width: 26
+          width: 22
         },
         {
           label: "Mín",

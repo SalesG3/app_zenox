@@ -1,0 +1,30 @@
+<div class="card-box">
+    <span class="card-title">
+        {{ title }}
+    </span>
+
+    <div class="card-container">
+        <table class="card-table">
+            <thead>
+                <tr>
+                    <th *ngFor="let i of columnsGrid" [style.width.rem]="i.width">
+                        {{ i.name }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                *ngFor="let item of dataGrid" id="item.ID"
+                >
+                    <td *ngFor="let c of columnsGrid">
+                        {{item[c.field]}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-footer">
+        <span>Total: R$ {{ totalValue }}</span>
+    </div>
+</div>
