@@ -23,6 +23,8 @@ export class Reports {
 
   constructor(private cdr: ChangeDetectorRef, private service: ReportsService){ }
 
+
+  /*
   updateReport(){
 
     this.selectReport = this.dataReports.find((r: any) => r.ID == this.ID_RELATORIO)
@@ -36,9 +38,12 @@ export class Reports {
     
     this.cdr.detectChanges()
   }
+  */
 
   async emitReport(){
-    let data = await this.service.reportEmit(this.type, this.selectReport.table, this.dataFilters)
+    let report = this.dataReports.find((r: any) => r.ID == this.ID_RELATORIO)
+
+    let data = await this.service.reportEmit(this.type, report)
 
     const byteCharacters = atob(data.file.split(',')[1]);
 

@@ -1,27 +1,44 @@
 <section class="component">
-    <span class="title">
-        {{ title }}
-    </span>
-
-    <div class="header">
+    <div class="comp-header">
+        <span class="comp-title">
+            {{ title }}
+        </span>
+    </div>
+    
+    <div class="container">
         <label for="ID_RELATORIO">
             Selecione o relatório
         </label>
-
+    
         <select
         name="ID_RELATORIO"
         id="ID_RELATORIO"
         [(ngModel)]="ID_RELATORIO"
-        (change)="updateReport()"
         >
             <option value="" hidden></option>
             <option *ngFor="let i of dataReports" [value]="i.ID">{{ i.DS }}</option>
-        </select>
-
-        
+        </select>    
     </div>
 
-    <div class="filters" *ngIf="selectReport">
+    <div *ngFor="let r of dataReports">
+        <div class="container" *ngIf="r.ID == ID_RELATORIO">
+            <div class="filter-input" *ngFor="let i of r.filters">
+                <label [for]="i.field">
+                    {{ i.label }}
+                </label>
+
+                <input
+                type="text"
+                [name]="i.field"
+                [id]="i.field"
+                [(ngModel)]="i.value"
+                >
+            </div>
+        </div>
+    </div>
+    <!--
+
+    <div class="container" *ngIf="selectReport">
 
         <div class="filter-input" *ngFor="let i of selectReport.filters">
             <label [for]="i.field">
@@ -36,17 +53,21 @@
             >
         </div>
     </div>
+    -->
+    
 
-    <div class="tools">
+    <div class="comp-tools">
         <button
-        class="crud"
+        class="btn-crud"
+        [disabled]="!ID_RELATORIO"
         (click)="emitReport()"
         >
             Emitir
         </button>
 
         <button
-        class="crud"
+        class="btn-crud"
+        [disabled]="!ID_RELATORIO"
         >
             Limpar
         </button>

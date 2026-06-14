@@ -52,7 +52,7 @@ export class Entidade implements OnInit{
     {
       label: "Razão Social",
       type: "text",
-      width: 26,
+      width: 24,
       field: "NM_ENTIDADE",
       required: true
     },
@@ -60,7 +60,7 @@ export class Entidade implements OnInit{
       label: "Nome Fantasia",
       type: "text",
       field: "DS_ENTIDADE",
-      width: 26,
+      width: 24,
       required: true
     },
     {
@@ -85,7 +85,7 @@ export class Entidade implements OnInit{
       label: "Endereço",
       type: "text",
       field: "DS_ENDERECO",
-      width: 16
+      width: 15
     },
     {
       label: "Número",
@@ -110,7 +110,7 @@ export class Entidade implements OnInit{
       label: "Complemento",
       type: "text",
       field: "DS_COMPLEMENTO",
-      width: 16
+      width: 15
     }
   ]
 
@@ -121,9 +121,17 @@ export class Entidade implements OnInit{
   }
 
   async consultFile(){
-    let data = await this.service.consultFile("ENTIDADES", this.dataRow.ID_ENTIDADE)
+    let data = await this.service.consultFile("ENTIDADES", this.dataRow["ID_ENTIDADE"])
 
-    console.log(data)
+    const byteCharacters = atob(data.ANEXO.split(',')[1]);
+
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const blob = new Blob([new Uint8Array(byteNumbers)], { type: "application/pdf" });
+    window.open(URL.createObjectURL(blob), '_blank')
   }
 
   btnAlterar(){

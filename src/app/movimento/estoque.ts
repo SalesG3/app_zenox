@@ -61,6 +61,7 @@ export class Estoque {
       name: "Tipo",
       field: "TP_ESTOQUE",
       width: 12,
+      type: "select",
       options: {"E": "Entrada", "S": "Saída"}
     },
     {
@@ -78,7 +79,8 @@ export class Estoque {
     {
       name: "Valor Total",
       field: "VL_ESTOQUE",
-      width: 8
+      width: 8,
+      type: "currency"
     }
   ]
 
@@ -145,10 +147,12 @@ export class Estoque {
     },
     {
       label: "Valor Total",
-      type: "number", // Em uma evolução da Engine, isso aqui poderia ter um readonly: true e calcular somando o grid abaixo!
+      type: "number",
       field: "VL_ESTOQUE",
       width: 8,
-      required: true
+      required: true,
+      readonly: true,
+      expression: "SUM(ESTOQUE_ITENS.VL_TOTAL)"
     },
     {
       label: "Itens da Movimentação",
@@ -185,12 +189,14 @@ export class Estoque {
         {
           name: "Vl. Unit",
           field: "VL_UNITARIO",
-          width: 8
+          width: 8,
+          type: "currency"
         },
         {
           name: "Vl. Total",
           field: "VL_TOTAL",
-          width: 8
+          width: 8,
+          type: "currency"
         }
       ],
       subForm: [
@@ -205,6 +211,7 @@ export class Estoque {
             DS: ["CD_PRODUTO", "NM_PRODUTO"],
             where: "1 = 1"
           },
+          autocomplete: { type: "change", fill: ["UN_MEDIDA"]}
         },
         {
           label: "Descrição Complementar",
@@ -216,7 +223,8 @@ export class Estoque {
           label: "UN",
           type: "text",
           field: "UN_MEDIDA",
-          width: 4
+          width: 4,
+          readonly: true
         },
         {
           label: "Quantidade",
@@ -234,7 +242,9 @@ export class Estoque {
           label: "Valor Total",
           type: "number",
           field: "VL_TOTAL",
-          width: 8
+          width: 8,
+          readonly: true,
+          expression: "dataSub.QT_ITENS * dataSub.VL_UNITARIO"
         }
       ]
     }

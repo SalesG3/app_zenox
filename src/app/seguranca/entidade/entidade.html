@@ -5,10 +5,10 @@
         </span>
     </div>
 
-    <div class="tools">
+    <div class="comp-tools">
         <button
         *ngIf="dataConsult"
-        class="crud"
+        class="btn-crud"
         (click)="btnAlterar()"
         >
             Alterar
@@ -16,7 +16,7 @@
 
         <button
         *ngIf="!dataConsult"
-        class="crud"
+        class="btn-crud"
         (click)="btnSalvar()"
         >
             Salvar
@@ -24,7 +24,7 @@
 
         <button
         *ngIf="!dataConsult"
-        class="crud"
+        class="btn-crud"
         (click)="btnCancelar()"
         >
             Cancelar
