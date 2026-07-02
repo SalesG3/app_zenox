@@ -116,10 +116,36 @@ export class Movimentacao {
       required: true
     },
     {
+      label: "Categoria",
+      type: "lookup",
+      field: "ID_CATEGORIA_DETALHE",
+      width: 12,
+      lookup: { 
+        table: "CATEGORIA_DETALHE",
+        ID: "ID_CATEGORIA_DETALHE",
+        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
+        joins: ["CATEGORIAS"],
+        where: "TP_CATEGORIA = 'F'"
+      }
+    },
+    {
+      label: "Status",
+      type: "select",
+      field: "CD_STATUS",
+      width: 8,
+      options: [
+        {ID: "O", DS: "Orçamento"}, 
+        {ID: "A", DS: "Aprovado"}, 
+        {ID: "L", DS: "Liquidado"}, 
+        {ID: "P", DS: "Pago"}
+      ],
+      required: true
+    },
+    {
       label: "Contrato",
       type: "lookup",
       field: "ID_CONTRATO",
-      width: 20,
+      width: 14,
       lookup: {
         "table": "CONTRATOS",
         ID: "ID_CONTRATO",
@@ -137,19 +163,6 @@ export class Movimentacao {
       required: true
     },
     {
-      label: "Status",
-      type: "select",
-      field: "CD_STATUS",
-      width: 8,
-      options: [
-        {ID: "O", DS: "Orçamento"}, 
-        {ID: "A", DS: "Aprovado"}, 
-        {ID: "L", DS: "Liquidado"}, 
-        {ID: "P", DS: "Pago"}
-      ],
-      required: true
-    },
-    {
       label: "Método",
       type: "select",
       field: "CD_METODO",
@@ -163,7 +176,7 @@ export class Movimentacao {
       label: "Conta Bancária",
       type: "lookup",
       field: "ID_CONTA",
-      width: 12,
+      width: 8,
       lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"]}
     },
     {

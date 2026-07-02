@@ -1,0 +1,33 @@
+<div class="dashboard-container">
+
+    <div class="widget-header">
+        <span>Controle por Categoria</span>
+    </div>
+
+    <div class="widget-body">
+        <table class="widget-table">
+            <thead>
+                <tr>
+                    <th>Categoria</th>
+                    <th>Orçado</th>
+                    <th>Receita</th>
+                    <th>Despesa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of dataGrid"
+                [ngClass]="{
+                    'text-green': +i.TOTAL_RECEITA >= +i.VL_MEDIO,
+                    'text-yellow': +i.TOTAL_DESPESA >= +i.VL_MEDIO && +i.TOTAL_DESPESA < +i.VL_MAXIMO,
+                    'text-red': +i.TOTAL_DESPESA >= +i.VL_MAXIMO
+                }">
+                
+                    <td>{{i.NM_CATEGORIA}}</td>
+                    <td>{{i.VL_MEDIO | currency:'BRL'}}</td>
+                    <td>{{i.TOTAL_RECEITA | currency:'BRL'}}</td>
+                    <td>{{i.TOTAL_DESPESA | currency:'BRL'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

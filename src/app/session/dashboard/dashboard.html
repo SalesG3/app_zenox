@@ -1,15 +1,29 @@
 <section class="component">
-    <div class="dashboard-box">
-        <div *ngFor="let i of widgets">
-            <app-default
-            [title]="i.title"
-            [table]="i.table"
-            [columnsGrid]="i.columnsGrid"
-            [totalizar]="i.totalizar"
-            >
+    <div class="left">
+        <div class="dashboard-box">
+            <app-default>
+                <!-- RECEITA - DESPESA = SALDO -->
             </app-default>
-
         </div>
+        <div class="dashboard-box">
+            <app-contas>
+                <!-- RECEITA - DESPESA = SALDO -->
+            </app-contas>
+            
+        </div>
+    </div>
+    <div class="right">
+        <div class="dashboard-box">
+            <app-dash-categorias>
+                <!-- RECEITA E DESPESA POR CATEGORIA -->
+            </app-dash-categorias>
+        </div>
+    </div>
+
+    <div class="dashboard-box">
+        <app-produtos>
+            
+        </app-produtos>
     </div>
 
 </section>

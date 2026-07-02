@@ -28,7 +28,7 @@ export class Financeiro {
     DT_FINANCEIRO: '',
     TP_FINANCEIRO: '',
     DS_FINANCEIRO: '',
-    ID_CATEGORIA: '',
+    ID_CATEGORIA_DETALHE: '',
     CD_STATUS: '',
     ID_CONTRATO: '',
     ID_PESSOA: '',
@@ -101,7 +101,7 @@ export class Financeiro {
     {
       label: "Categoria",
       type: "lookup",
-      field: "ID_CATEGORIA",
+      field: "ID_CATEGORIA_DETALHE",
       width: 12,
       lookup: { 
         table: "CATEGORIA_DETALHE",

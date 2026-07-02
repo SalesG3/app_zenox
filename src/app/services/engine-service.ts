@@ -159,7 +159,7 @@ export class EngineService {
       method: "POST",
       headers: {
         "Content-Type":"application/json",
-        x_session: this.session.X_SESSION
+        x_session: this.session.X_SESSION,
       },
       body: JSON.stringify({})
     })

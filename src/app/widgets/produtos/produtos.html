@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+
+    <div class="widget-header">
+        <span>Controle de Produtos</span>
+    </div>
+
+    <div class="widget-body">
+        <table class="widget-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Tipo</th>
+                    <th>Un Medida</th>
+                    <th>Qt Min</th>
+                    <th>Qt Max</th>
+                    <th>Qt Saldo</th>
+                    <th>Valor Un</th>
+                    <th>Valor Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of dataGrid"
+                [ngClass]="{
+                    'text-green':   +i.QT_SALDO >= +i.MAX_ESTOQUE,
+                    'text-yellow':  +i.QT_SALDO >= +i.MIN_ESTOQUE && +i.QT_SALDO < +i.MED_ESTOQUE,
+                    'text-red':     +i.QT_SALDO <= +i.MIN_ESTOQUE
+                }">
+                
+                    <td>{{i.NM_PRODUTO}}</td>
+                    <td>{{i.TP_PRODUTO}}</td>
+                    <td>{{i.UN_MEDIDA}}</td>
+                    <td>{{i.MIN_ESTOQUE}}</td>
+                    <td>{{i.MAX_ESTOQUE}}</td>
+                    <td>{{+i.QT_SALDO}}</td>
+                    <td>{{i.VL_UNITARIO | currency:'BRL'}}</td>
+                    <td>{{i.VL_TOTAL | currency:'BRL'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

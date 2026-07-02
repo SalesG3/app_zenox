@@ -60,7 +60,7 @@ export class Categorias {
       field: "TP_CATEGORIA",
       width: 8,
       type: "select",
-      options: { "F": "Financeiro", "P": "Produto" }
+      options: { "F": "Financeiro", "E": "Estoque", "M": "OS/Venda", "P":"Produto" }
     },
     {
       name: "Descrição",
@@ -89,7 +89,12 @@ export class Categorias {
       type: "select",
       field: "TP_CATEGORIA",
       width: 12,
-      options: [{ID: "F", DS: "Financeiro"}, {ID: "P", DS: "Produto"}],
+      options: [
+        {ID: "F", DS: "Financeiro"},
+        {ID: "E", DS: "Estoque"},
+        {ID: "M", DS: "OS/Venda"},
+        {ID: "P", DS: "Produto"}
+      ],
       required: true
     },
     {

@@ -1,7 +1,7 @@
 <div class="dashboard-container">
 
     <div class="widget-header">
-        <span>Fluxo de Caixa</span>
+        <span>Contas a Receber / Pagar</span>
     </div>
 
     <div class="widget-body">
@@ -9,7 +9,7 @@
         <div class="kpi-box">
             <i class="fa-solid fa-arrow-trend-up kpi-icon kpi-green"></i>
             <div class="kpi-data">
-                <span class="kpi-title">Receitas</span>
+                <span class="kpi-title">A Receber</span>
                 <span class="kpi-value">R$ {{ dataGrid[0].RECEITA | number:'1.2-2':'pt-BR' }}</span>
             </div>
         </div>
@@ -17,7 +17,7 @@
         <div class="kpi-box">
             <i class="fa-solid fa-arrow-trend-down kpi-icon kpi-red"></i>
             <div class="kpi-data">
-                <span class="kpi-title">Despesas</span>
+                <span class="kpi-title">A Pagar</span>
                 <span class="kpi-value">R$ {{ dataGrid[0].DESPESA | number:'1.2-2':'pt-BR' }}</span>
             </div>
         </div>

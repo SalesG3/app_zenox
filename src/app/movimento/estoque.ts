@@ -108,6 +108,19 @@ export class Estoque {
       required: true
     },
     {
+      label: "Categoria",
+      type: "lookup",
+      field: "ID_CATEGORIA_DETALHE",
+      width: 12,
+      lookup: { 
+        table: "CATEGORIA_DETALHE",
+        ID: "ID_CATEGORIA_DETALHE",
+        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
+        joins: ["CATEGORIAS"],
+        where: "TP_CATEGORIA = 'F'"
+      }
+    },
+    {
       label: "Status",
       type: "select",
       field: "CD_STATUS",

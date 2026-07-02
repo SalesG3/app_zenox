@@ -1,21 +1,22 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EngineService } from '../../services/engine-service';
 
 @Component({
-  selector: 'app-default',
+  selector: 'app-dash-categorias',
   imports: [CommonModule],
-  templateUrl: './default.html',
-  styleUrl: './default.css',
+  templateUrl: './categorias.html',
+  styleUrl: './categorias.css',
 })
-export class Default implements OnInit {
-
+export class Categorias {
+  
   dataGrid: any[] = []
 
   constructor(private service: EngineService, private cdr: ChangeDetectorRef){ }
 
   async ngOnInit() {
-    this.dataGrid = await this.service.widgetReq("default")
+    this.dataGrid = await this.service.widgetReq("categorias")
+
 
     this.cdr.detectChanges()
   }
