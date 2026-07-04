@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { EngineService } from '../../services/engine-service';
 import { columnsGrid, dataForm} from './interfaces'
@@ -25,12 +25,15 @@ export class Engine implements OnInit {
   @Input() dataForm: dataForm[] = []
   @Input() subComponent: any = {}
 
+  @Input() formFilter: dataForm[] = []
+
   dataError: string = ''
   dataGrid: any[] = []
   subGrids: any = {}
   dataLookups: any = {}
   dataClean: any = {}
   
+  filterScreen: boolean = true
   dataScreen: boolean = false
   dataUpdate: boolean = false
   dataConsult: boolean = false
@@ -38,10 +41,12 @@ export class Engine implements OnInit {
   dataSearch: any = {
     DATAKEY: '',
     COLUMNS: [],
-    DS_PESQUISA: ''
+    DS_PESQUISA: '',
+    filters: {}
   }
 
   @ViewChild('ngdataForm') ngdataForm ?: NgForm
+  @ViewChild('modalFiltro') modalFiltro !: ElementRef
 
   constructor(private service: EngineService, private cdr: ChangeDetectorRef){}
 
@@ -118,6 +123,8 @@ export class Engine implements OnInit {
 
   async btnBuscar(){
     let data = await this.service.dataGrid(this.table, this.dataSearch)
+    this.dataSearch.filters = { }
+    this.modalFiltro.nativeElement.close()
 
     this.dataRow[this.dataKey] = 0
     this.dataGrid = data
@@ -229,5 +236,10 @@ export class Engine implements OnInit {
         }
       }
     }
+  }
+
+  btnFiltrar(){
+    console.log("OK")
+    this.modalFiltro.nativeElement.showModal()
   }
 }

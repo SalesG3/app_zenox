@@ -16,6 +16,7 @@ import { Engine } from '../session/engine/engine';
     [columnsGrid]="columnsGrid"
     [dataForm]="dataForm"
     [subComponent]="subComponent"
+    [formFilter]="formFilter"
 
   ></app-engine>
   `,
@@ -52,13 +53,14 @@ export class Financeiro {
     {
       name: "Data",
       field: "DT_FINANCEIRO",
-      width: 8,
+      width: 6,
       type: 'date'
     },
     {
       name: "Tipo",
       field: "TP_FINANCEIRO",
-      width: 12,
+      type: 'select',
+      width: 6,
       options: {"D": "Despesa", "R": "Receita"}
     },
     {
@@ -69,9 +71,22 @@ export class Financeiro {
       table: "PESSOAS"
     },
     {
+      name: "Descrição",
+      field: "DS_FINANCEIRO",
+      width: 24
+    },
+    {
+      name: "Status",
+      field: "CD_STATUS",
+      width: 6,
+      type: "select",
+      options: {"L":"Liquidado","P":"Pago"}
+    },
+    {
       name: "Valor",
       field: "VL_FINANCEIRO",
-      width: 8
+      type: 'currency',
+      width: 6
     }
   ]
   dataForm: dataForm[] = [
@@ -231,4 +246,58 @@ export class Financeiro {
       ]
     }
   }
+
+  formFilter: dataForm[] = [
+    {
+      label: "Fornecedor",
+      type: "lookup",
+      field: "ID_PESSOA",
+      width: 32,
+      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO']}
+    },
+    {
+      label: "Data",
+      type: "date",
+      field: "DT_FINANCEIRO",
+      width: 8,
+      required: true
+    },
+    {
+      label: "Tipo",
+      type: "select",
+      field: "TP_FINANCEIRO",
+      width: 8,
+      required: true,
+
+      options: [{ID: "D", DS: "Despesa"}, {ID: "R", DS: "Receita"}]
+    },
+    {
+      label: "Descrição",
+      type: "text",
+      field: "DS_FINANCEIRO",
+      width: 33,
+      required: true
+    },
+    {
+      label: "Categoria",
+      type: "lookup",
+      field: "ID_CATEGORIA_DETALHE",
+      width: 12,
+      lookup: { 
+        table: "CATEGORIA_DETALHE",
+        ID: "ID_CATEGORIA_DETALHE",
+        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
+        joins: ["CATEGORIAS"],
+        where: "TP_CATEGORIA = 'F'"
+      }
+    },
+    {
+      label: "Status",
+      type: "select",
+      field: "CD_STATUS",
+      width: 8,
+      options: [{ID: "L", DS: "Liquidado"}, {ID: "P", DS: "Pago"}],
+      required: true
+    }
+  ]
 }

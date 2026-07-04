@@ -102,6 +102,19 @@
     }
 }
 
+.container-table{
+    overflow-y: auto;
+    max-height: 26rem;
+}
+
+.container-table::-webkit-scrollbar {
+    width: 6px;
+}
+.container-table::-webkit-scrollbar-thumb {
+    background: #c1c1c1; 
+    border-radius: 4px;
+}
+
 .selected{
     background-color: #116191 !important;
     color: white;
@@ -124,4 +137,14 @@
         width: 100%;
         font-size: .85rem;
     }
+}
+
+/* ================================================== */
+/*            TELA DO FILTRO AVANÇADO                 */
+/* ================================================== */
+
+.modalFiltro{
+    border: 1px solid #2c3e50;
+    border-radius: 1rem;
+    gap: 1rem;
 }

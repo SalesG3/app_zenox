@@ -17,6 +17,7 @@ import { Engine } from '../session/engine/engine';
     [columnsGrid]="columnsGrid"
     [dataForm]="dataForm"
     [subComponent]="subComponent"
+    [formFilter]="formFilter"
 
   ></app-engine>
   `,
@@ -101,7 +102,7 @@ export class Estoque {
       options: [{ID: "E", DS: "Entrada"}, {ID: "S", DS: "Saída"}]
     },
     {
-      label: "Descrição da Movimentação",
+      label: "Descrição",
       type: "text",
       field: "DS_ESTOQUE",
       width: 25,
@@ -129,14 +130,14 @@ export class Estoque {
       required: true
     },
     {
-      label: "Fornecedor / Cliente",
+      label: "Fornecedor",
       type: "lookup",
       field: "ID_PESSOA",
       width: 24,
       lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]}
     },
     {
-      label: "Documento (NF/Recibo)",
+      label: "Documento",
       type: "text",
       field: "DOC_ESTOQUE",
       width: 12
@@ -262,4 +263,63 @@ export class Estoque {
       ]
     }
   }
+
+  formFilter : dataForm[] = [
+    {
+      label: "Data",
+      type: "date",
+      field: "DT_ESTOQUE",
+      width: 8,
+      required: true
+    },
+    {
+      label: "Tipo",
+      type: "select",
+      field: "TP_ESTOQUE",
+      width: 8,
+      required: true,
+      options: [{ID: "E", DS: "Entrada"}, {ID: "S", DS: "Saída"}]
+    },
+    {
+      label: "Descrição",
+      type: "text",
+      field: "DS_ESTOQUE",
+      width: 25,
+      required: true
+    },
+    {
+      label: "Categoria",
+      type: "lookup",
+      field: "ID_CATEGORIA_DETALHE",
+      width: 12,
+      lookup: { 
+        table: "CATEGORIA_DETALHE",
+        ID: "ID_CATEGORIA_DETALHE",
+        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
+        joins: ["CATEGORIAS"],
+        where: "TP_CATEGORIA = 'F'"
+      }
+    },
+    {
+      label: "Status",
+      type: "select",
+      field: "CD_STATUS",
+      width: 8,
+      options: [{ID: "A", DS: "Aberto"}, {ID: "E", DS: "Efetivado"}, {ID: "C", DS: "Cancelado"}],
+      required: true
+    },
+    {
+      label: "Fornecedor",
+      type: "lookup",
+      field: "ID_PESSOA",
+      width: 24,
+      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]}
+    },
+    {
+      label: "Documento",
+      type: "text",
+      field: "DOC_ESTOQUE",
+      width: 12
+    }
+  ]
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Engine } from '../session/engine/engine';
+import { dataForm } from '../session/engine/interfaces';
 
 @Component({
   selector: 'app-pessoas',
@@ -13,6 +14,8 @@ import { Engine } from '../session/engine/engine';
       [dataRow]="dataRow"
       [columnsGrid]="columnsGrid"
       [dataForm]="dataForm"
+      [formFilter]="formFilter"
+
     ></app-engine>`,
   styles: '',
 })
@@ -103,6 +106,50 @@ export class Pessoas {
       field: "HISTORICO",
       width: 70,
       height: 4,
+    }
+  ]
+
+  formFilter : dataForm[] = [
+    {
+      label: "Código",
+      type: "number",
+      field: "CD_PESSOA",
+      width: 8,
+      required: true,
+      autocomplete: {type: "codigo"}
+    },
+    {
+      label: "Tipo",
+      type: "select",
+      field: "TP_PESSOA",
+      width: 12,
+      required: true,
+      options: [{ID: 'F', DS: 'Física'}, {ID: 'J', DS: 'Jurídica'}]
+    },
+    {
+      label: "Nome",
+      type: "text",
+      field: "NM_PESSOA",
+      width: 32,
+      required: true
+    },
+    {
+      label: "CPF/CNPJ",
+      type: "text",
+      field: "CADASTRO",
+      width: 16,
+      required: true,
+      mask: '000.000.000-00||00.000.000/0000-00'
+    },
+    {
+      label: "Ativo",
+      type: "select",
+      field: "SN_ATIVO",
+      width: 12,
+      options: [
+        {ID: "1", DS: "Sim"},
+        {ID: "0", DS: "Não"}
+      ]
     }
   ]
 }

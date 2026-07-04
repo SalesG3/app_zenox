@@ -16,7 +16,7 @@ import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../sessio
     [columnsGrid]="columnsGrid"
     [dataForm]="dataForm"
     [subComponent]="subComponent"
-
+    [formFilter]="formFilter" 
   ></app-engine>
   `,
   styles: ``,
@@ -241,5 +241,46 @@ export class Categorias {
     }
 
   }
+
+  formFilter: dataForm[] = [
+    {
+      label: "Código",
+      type: "number",
+      field: "CD_CATEGORIA",
+      width: 8,
+      autocomplete: { type: "codigo" },
+      required: true
+    },
+    {
+      label: "Tipo",
+      type: "select",
+      field: "TP_CATEGORIA",
+      width: 12,
+      options: [
+        {ID: "F", DS: "Financeiro"},
+        {ID: "E", DS: "Estoque"},
+        {ID: "M", DS: "OS/Venda"},
+        {ID: "P", DS: "Produto"}
+      ],
+      required: true
+    },
+    {
+      label: "Descrição",
+      type: "text",
+      field: "NM_CATEGORIA",
+      width: 26,
+      required: true
+    },
+    {
+      label: "Ativo",
+      type: "select",
+      field: "SN_ATIVO",
+      width: 12,
+      options: [
+        {ID: "1", DS: "Sim"},
+        {ID: "0", DS: "Não"}
+      ]
+    },
+  ]
 
 }

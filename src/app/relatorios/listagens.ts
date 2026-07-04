@@ -22,8 +22,8 @@ export class Listagens {
       ],
       columns: [
         { field: "CD_PESSOA", label: "Código", width: 4},
-        { field: "NM_PESSOA", label: "Nome/Razão Social", width: 12},
-        { field: "CADASTRO", label: "CPF/CNPJ", width: 4},
+        { field: "NM_PESSOA", label: "Nome/Razão Social", width: 10},
+        { field: "CADASTRO", label: "CPF/CNPJ", width: 6},
         { field: "SN_ATIVO", label: "Ativo", width: 4}
       ],
     },

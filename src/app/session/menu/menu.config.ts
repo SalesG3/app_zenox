@@ -6,6 +6,7 @@ import { Produtos } from "../../cadastro/produtos";
 import { Estoque } from "../../movimento/estoque";
 import { Financeiro } from "../../movimento/financeiro";
 import { Movimentacao } from "../../movimento/movimentacao";
+import { Documentos } from "../../relatorios/documentos";
 import { Listagens } from "../../relatorios/listagens";
 import { Entidade } from "../../seguranca/entidade/entidade";
 
@@ -41,7 +42,8 @@ export const menuEngine: menuEngine[] = [
         open: false,
         route: "relatorios",
         itens: [
-            { label: "Listagens", route: 'listagens', icon: "fa-solid fa-file-lines", component: Listagens}
+            { label: "Listagens", route: 'listagens', icon: "fa-solid fa-file-lines", component: Listagens },
+            { label: "Documentos / Recibos", route: 'documentos', icon: "fa-solid fa-file-lines", component: Documentos}
         ]
     },
     {

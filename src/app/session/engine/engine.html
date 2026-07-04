@@ -87,13 +87,15 @@
 
         <button
         class="btn-crud"
+        (click)="btnFiltrar()"
+
         >
             Filtrar
         </button>
     
     </div>
 
-    <div class="container" *ngIf="!dataScreen">
+    <div class="container-table" *ngIf="!dataScreen">
 
         <table class="dataGrid">
             <thead>
@@ -144,7 +146,7 @@
         </table>
     </div>
 
-    <div class="container" *ngIf="dataScreen">
+    <div class="container-form" *ngIf="dataScreen">
         <form #ngdataForm="ngForm" class="dataForm">
             <div class="form-group" *ngFor="let i of dataForm">
 
@@ -185,3 +187,41 @@
         </form>
     </div>
 </section>
+
+<dialog class="modalFiltro" #modalFiltro>
+    <div class="modalHeader">
+        <span class="modalTitle">
+            Filtro Avançado
+        </span>
+    </div>
+
+    <div class="modalBody">
+        <div *ngFor="let i of formFilter">
+            <div class="input-group">
+
+                <label [for]="i.field">
+                    {{ i.label }}
+                </label>
+
+                <app-formgroup
+                [i]="i"
+                [dataRow]="dataSearch.filters" 
+                [dataConsult]="false"
+                [dataLookups]="dataLookups"
+                (onLookupFocus)="lookup($event)"
+                ></app-formgroup>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modalTools">
+        <button
+        class="btn-crud"
+        (click)="btnBuscar()"
+        >
+
+            Filtrar
+        </button>
+    </div>
+</dialog>

@@ -17,6 +17,7 @@ import { Engine } from '../session/engine/engine';
     [columnsGrid]="columnsGrid"
     [dataForm]="dataForm"
     [subComponent]="subComponent"
+    [formFilter]="formFilter"
 
   ></app-engine>
   `,
@@ -125,7 +126,7 @@ export class Movimentacao {
         ID: "ID_CATEGORIA_DETALHE",
         DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
         joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'"
+        where: "TP_CATEGORIA = 'M'"
       }
     },
     {
@@ -284,4 +285,76 @@ export class Movimentacao {
       ]
     }
   }
+
+  formFilter: dataForm[] = [
+    {
+      label: "Data",
+      type: "date",
+      field: "DT_MOVIMENTACAO",
+      width: 8,
+      required: true
+    },
+    {
+      label: "Tipo",
+      type: "select",
+      field: "TP_MOVIMENTACAO",
+      width: 12,
+      required: true,
+      options: [{ID: "V", DS: "Venda"}, {ID: "O", DS: "Ordem de Serviço"}]
+    },
+    {
+      label: "Descrição",
+      type: "text",
+      field: "DS_MOVIMENTACAO",
+      width: 25,
+      required: true
+    },
+    {
+      label: "Categoria",
+      type: "lookup",
+      field: "ID_CATEGORIA_DETALHE",
+      width: 12,
+      lookup: { 
+        table: "CATEGORIA_DETALHE",
+        ID: "ID_CATEGORIA_DETALHE",
+        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
+        joins: ["CATEGORIAS"],
+        where: "TP_CATEGORIA = 'F'"
+      }
+    },
+    {
+      label: "Status",
+      type: "select",
+      field: "CD_STATUS",
+      width: 8,
+      options: [
+        {ID: "O", DS: "Orçamento"}, 
+        {ID: "A", DS: "Aprovado"}, 
+        {ID: "L", DS: "Liquidado"}, 
+        {ID: "P", DS: "Pago"}
+      ],
+      required: true
+    },
+    {
+      label: "Contrato",
+      type: "lookup",
+      field: "ID_CONTRATO",
+      width: 14,
+      lookup: {
+        "table": "CONTRATOS",
+        ID: "ID_CONTRATO",
+        DS: ["CD_CONTRATO","DS_CONTRATO"],
+        where: "CD_STATUS = 'A'"
+      },
+      autocomplete: { type: "change", fill: ["ID_PESSOA"] }
+    },
+    {
+      label: "Credor",
+      type: "lookup",
+      field: "ID_PESSOA",
+      width: 20,
+      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]},
+      required: true
+    }
+  ]
 }

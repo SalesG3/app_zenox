@@ -16,6 +16,7 @@ import { Engine } from '../session/engine/engine';
     [columnsGrid]="columnsGrid"
     [dataForm]="dataForm"
     [subComponent]="subComponent"
+    [formFilter]="formFilter"
 
   ></app-engine>
   `,
@@ -198,4 +199,44 @@ export class Contratos {
       ]
     }
   }
+
+  formFilter : dataForm[] = [
+    {
+      label: "Nº Contrato",
+      type: "text",
+      field: "CD_CONTRATO",
+      width: 12,
+      required: true
+    },
+    {
+      label: "Credor",
+      type: "lookup",
+      field: "ID_PESSOA",
+      width: 32,
+      lookup: { table: "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]},
+      required: true
+    },
+    {
+      label: "Assinatura",
+      type: "date",
+      field: "DT_ASSINATURA",
+      width: 8,
+      required: true
+    },
+    {
+      label: "Término",
+      type: "date",
+      field: "DT_TERMINO",
+      width: 8,
+      required: true
+    },
+    {
+      label: "Status",
+      type: "select",
+      field: "CD_STATUS",
+      width: 12,
+      options: [{ID: 'A', DS: 'Andamento'}, {ID: 'E', DS: 'Executado'}, {ID: 'R', DS: 'Rescindido'}],
+      required: true
+    }
+  ]
 }

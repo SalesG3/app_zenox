@@ -16,7 +16,7 @@ import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../sessio
     [columnsGrid]="columnsGrid"
     [dataForm]="dataForm"
     [subComponent]="subComponent"
-
+    [formFilter]="formFilter"
   ></app-engine>
   `,
   styles: ``,
@@ -100,5 +100,43 @@ export class Contas {
 
   subComponent: subComponent = { }
 
-
+  formFilter :dataForm[] = [
+    {
+      label: "Nº Conta",
+      type: "number",
+      field: "CD_CONTA",
+      width: 12,
+      required: true
+    },
+    {
+      label: "Digíto",
+      type: "number",
+      field: "DG_CONTA",
+      width: 4,
+      required: true
+    },
+    {
+      label: "Nº Agencia",
+      type: "number",
+      field: "CD_AGENCIA",
+      width: 8
+    },
+    {
+      label: "Descrição",
+      type: "text",
+      field: "DS_CONTA",
+      width: 24
+    },
+    {
+      label: "Ativo",
+      type: "select",
+      field: "SN_ATIVO",
+      width: 12,
+      options: [
+        {ID: "1", DS: "Sim"},
+        {ID: "0", DS: "Não"}
+      ],
+      required: true
+    }
+  ]
 }

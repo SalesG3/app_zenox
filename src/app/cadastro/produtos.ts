@@ -16,6 +16,7 @@ import { Engine } from '../session/engine/engine';
     [columnsGrid]="columnsGrid"
     [dataForm]="dataForm"
     [subComponent]="subComponent"
+    [formFilter]="formFilter"
 
 ></app-engine>`,
   styles: '',
@@ -51,7 +52,7 @@ export class Produtos {
     {
       name: "Produto",
       field: "NM_PRODUTO",
-      width: 24
+      width: 28
     },
     {
       name: "Tipo",
@@ -64,6 +65,11 @@ export class Produtos {
       name: "Un Medida",
       field: "UN_MEDIDA",
       width: 8
+    },
+    {
+      name: "Marca",
+      field: "NM_MARCA",
+      width: 12
     }
   ]
 
@@ -191,4 +197,51 @@ export class Produtos {
       ]
     }
   }
+
+  formFilter : dataForm[] = [
+    {
+      label: "Código",
+      type: "number",
+      field: "CD_PRODUTO",
+      width: 8
+    },
+    {
+      label: "Nome",
+      type: "text",
+      field: "NM_PRODUTO",
+      width: 32
+    },
+    {
+      label: "Tipo",
+      type: "select",
+      field: "TP_PRODUTO",
+      width: 12,
+      options: [{ID: "M", DS: "Matéria-Prima"}, {ID: "R", DS: "Revenda"}, {ID: "P", DS: "Produzido"}, {ID: "S", DS: "Serviço"}]
+    },
+    {
+      label: "Código de Barras",
+      type: "text",
+      field: "CD_BARRAS",
+      width: 16,
+    },
+    {
+      label: "Un. Medida",
+      type: "text",
+      field: "UN_MEDIDA",
+      width: 8
+    },
+    {
+      label: "Fornecedor",
+      type: "lookup",
+      field: "ID_PESSOA",
+      width: 32,
+      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO']}
+    },
+    {
+      label: "Marca",
+      type: "text",
+      field: "NM_MARCA",
+      width: 16,
+    }
+  ]
 }
