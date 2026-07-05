@@ -3,10 +3,12 @@ import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
 import { ReportsService } from '../../services/reports-service';
+import { Formgroup } from '../formgroup/formgroup';
+import { EngineService } from '../../services/engine-service';
 
 @Component({
   selector: 'app-reports',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Formgroup],
   templateUrl: './reports.html',
   styleUrl: './reports.css',
 })
@@ -18,32 +20,22 @@ export class Reports {
 
   ID_RELATORIO: number = 0
 
-  dataFilters: any = { }
+  dataRow: any = { }
+  dataLookups: any = { }
   selectReport: any = null
 
-  constructor(private cdr: ChangeDetectorRef, private service: ReportsService){ }
+  constructor(private cdr: ChangeDetectorRef, private service: ReportsService, private service2: EngineService){ }
 
-
-  /*
-  updateReport(){
-
-    this.selectReport = this.dataReports.find((r: any) => r.ID == this.ID_RELATORIO)
-    this.dataFilters = { }
-
-    let report = this.dataReports.find(((r: any) => r.ID == this.ID_RELATORIO))
-
-    report.filters.forEach((f: any) => {
-      if(f.default) this.dataFilters[f.field] = f.default
-    })
-    
+  async lookup(lookup: any){
+    let data = await this.service2.lookup(lookup)
+    this.dataLookups[lookup.table] = data
     this.cdr.detectChanges()
   }
-  */
 
   async emitReport(){
     let report = this.dataReports.find((r: any) => r.ID == this.ID_RELATORIO)
 
-    let data = await this.service.reportEmit(this.type, report)
+    let data = await this.service.reportEmit(this.type, this.dataRow)
 
     const byteCharacters = atob(data.file.split(',')[1]);
 

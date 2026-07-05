@@ -90,7 +90,7 @@ export class Contratos {
       type: "lookup",
       field: "ID_PESSOA",
       width: 32,
-      lookup: { table: "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]},
+      lookup: { table: "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
       required: true
     },
     {
@@ -213,7 +213,7 @@ export class Contratos {
       type: "lookup",
       field: "ID_PESSOA",
       width: 32,
-      lookup: { table: "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]},
+      lookup: { table: "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
       required: true
     },
     {

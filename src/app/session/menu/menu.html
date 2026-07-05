@@ -12,7 +12,7 @@
         </div>
 
         <div class="menu-routes">
-            <a class="folder-header" routerLink="./dashboard" skipLocationChange>
+            <a class="folder-header" (click)="openComponent(moduleWorkspace[0])" skipLocationChange>
                 <i class="fa-solid fa-chart-column folder-icon"></i>
                 <strong class="folder-label">Dashboard</strong>
             </a>
@@ -26,7 +26,7 @@
 
                 <div class="folder-itens" *ngIf="f.open">
                     <a *ngFor="let i of f.itens"
-                    [routerLink]="'./' + f.route + '/' + i.route"
+                    (click)="openComponent(i)"
                     class="folder-item"
                     routerLinkActive="active-link"
                     skipLocationChange
@@ -40,22 +40,43 @@
     </div>
 
     <div class="router-component">
-        <div class="router-header">
-            <div class="router-info">
-                <span class="router-entidade">
-                    {{ NM_ENTIDADE }}
-                </span>
-                
-                <br>
+        <div class="router-box">
 
-                <span class="router-usuario">
-                    Usuário: {{ NM_USUARIO }} | Competência: {{ meses[ID_MES] }}/{{ ID_ANO }} | Versão: {{ VERSION }}
-                </span>
+            <div class="router-header">
+                <div class="router-info">
+                    <span class="router-entidade">
+                        {{ NM_ENTIDADE }}
+                    </span>
+                    
+                    <br>
+                    
+                    <span class="router-usuario">
+                        Usuário: {{ NM_USUARIO }} | Competência: {{ meses[ID_MES] }}/{{ ID_ANO }} | Versão: {{ VERSION }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="router-workspace">
+                <button
+                *ngFor="let i of engineWorkspace"
+                (click)="activeWorspace = i.route"
+                [class.btn-active]="activeWorspace == i.route"
+                class="btn-workspace"
+                >
+                    <span>
+                        {{ i.label }}
+                    </span>
+                    <i class="fa-solid fa-xmark btn-close" (click)="closeComponent(i)"></i>
+                </button>
             </div>
         </div>
 
         <div class="router-outlet">
-            <router-outlet></router-outlet>
+            <ng-container *ngFor="let i of engineWorkspace">
+                <div [hidden]="activeWorspace !== i.route">
+                    <ng-container *ngComponentOutlet="i.component"></ng-container>
+                </div>
+            </ng-container>
         </div>
     </div>
 </section>

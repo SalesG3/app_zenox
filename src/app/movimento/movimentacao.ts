@@ -126,7 +126,8 @@ export class Movimentacao {
         ID: "ID_CATEGORIA_DETALHE",
         DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
         joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'M'"
+        where: "TP_CATEGORIA = 'M'",
+        order: ["CD_CATEGORIA", "CD_DETALHE"]
       }
     },
     {
@@ -151,7 +152,8 @@ export class Movimentacao {
         "table": "CONTRATOS",
         ID: "ID_CONTRATO",
         DS: ["CD_CONTRATO","DS_CONTRATO"],
-        where: "CD_STATUS = 'A'"
+        where: "CD_STATUS = 'A'",
+        order: ["CD_CONTRATO"]
       },
       autocomplete: { type: "change", fill: ["ID_PESSOA"] }
     },
@@ -160,7 +162,7 @@ export class Movimentacao {
       type: "lookup",
       field: "ID_PESSOA",
       width: 20,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]},
+      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
       required: true
     },
     {
@@ -178,7 +180,7 @@ export class Movimentacao {
       type: "lookup",
       field: "ID_CONTA",
       width: 8,
-      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"]}
+      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"], order: ["CD_CONTA"]}
     },
     {
       label: "Desconto",
@@ -246,7 +248,7 @@ export class Movimentacao {
           type: "lookup",
           field: "ID_PRODUTO",
           width: 24,
-          lookup: { "table": "PRODUTOS", ID: "ID_PRODUTO", DS: ["CD_PRODUTO","NM_PRODUTO"], where: "TP_PRODUTO IN ('P','S')" },
+          lookup: { "table": "PRODUTOS", ID: "ID_PRODUTO", DS: ["CD_PRODUTO","NM_PRODUTO"], where: "TP_PRODUTO IN ('P','S')", order: ["CD_PRODUTO"]},
           autocomplete: {type: 'change', fill: ["UN_MEDIDA"]}
         },
         {
@@ -319,7 +321,8 @@ export class Movimentacao {
         ID: "ID_CATEGORIA_DETALHE",
         DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
         joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'"
+        where: "TP_CATEGORIA = 'F'",
+        order: ["CD_CATEGORIA","CD_DETALHE"]
       }
     },
     {
@@ -344,7 +347,8 @@ export class Movimentacao {
         "table": "CONTRATOS",
         ID: "ID_CONTRATO",
         DS: ["CD_CONTRATO","DS_CONTRATO"],
-        where: "CD_STATUS = 'A'"
+        where: "CD_STATUS = 'A'",
+        order: ["CD_CONTRATO"]
       },
       autocomplete: { type: "change", fill: ["ID_PESSOA"] }
     },
@@ -353,7 +357,7 @@ export class Movimentacao {
       type: "lookup",
       field: "ID_PESSOA",
       width: 20,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]},
+      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
       required: true
     }
   ]

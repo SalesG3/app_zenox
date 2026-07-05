@@ -239,7 +239,6 @@ export class Engine implements OnInit {
   }
 
   btnFiltrar(){
-    console.log("OK")
     this.modalFiltro.nativeElement.showModal()
   }
 }

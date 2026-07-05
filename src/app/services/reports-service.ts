@@ -18,7 +18,7 @@ export class ReportsService {
         "Content-Type":"application/json",
         "X_SESSION": this.session.X_SESSION
       },
-      body: JSON.stringify({ columns: report.columns, filters: report.filters})
+      body: JSON.stringify(report)
     })
 
     let data = await req.json()

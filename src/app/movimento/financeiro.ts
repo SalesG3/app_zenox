@@ -123,7 +123,8 @@ export class Financeiro {
         ID: "ID_CATEGORIA_DETALHE",
         DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
         joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'"
+        where: "TP_CATEGORIA = 'F'",
+        order: ["CD_CATEGORIA", "CD_DETALHE"]
       }
     },
     {
@@ -144,7 +145,8 @@ export class Financeiro {
         ID: "ID_CONTRATO",
         DS: ["CD_CONTRATO","NM_PESSOA"],
         joins: ["PESSOAS"],
-        where: "CD_STATUS = 'A'"
+        where: "CD_STATUS = 'A'",
+        order: ["CD_CONTRATO"]
       },
       autocomplete: {type: 'change', fill: ["ID_PESSOA"]}
     },
@@ -153,7 +155,7 @@ export class Financeiro {
       type: "lookup",
       field: "ID_PESSOA",
       width: 24,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]},
+      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
       required: true
     },
     {
@@ -171,7 +173,7 @@ export class Financeiro {
       type: "lookup",
       field: "ID_CONTA",
       width: 12,
-      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"]}
+      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"], order: ["CD_CONTA"]}
     },
     {
       label: "Valor",
@@ -253,7 +255,7 @@ export class Financeiro {
       type: "lookup",
       field: "ID_PESSOA",
       width: 32,
-      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO']}
+      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO'], order: ["CD_PESSOA"]}
     },
     {
       label: "Data",
@@ -288,7 +290,8 @@ export class Financeiro {
         ID: "ID_CATEGORIA_DETALHE",
         DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
         joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'"
+        where: "TP_CATEGORIA = 'F'",
+        order: ["CD_CATEGORIA", "CD_DETALHE"]
       }
     },
     {

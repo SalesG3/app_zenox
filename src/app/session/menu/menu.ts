@@ -1,13 +1,15 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Session } from '../../services/session';
 import { ReportsService } from '../../services/reports-service';
 import { menuEngine } from './menu.config';
 import { CommonModule } from '@angular/common';
+import { Dashboard } from '../dashboard/dashboard';
+import { Categorias } from '../../cadastro/categorias';
 
 @Component({
   selector: 'app-menu',
-  imports: [RouterLink, RouterOutlet, CommonModule],
+  imports: [CommonModule],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
@@ -19,7 +21,17 @@ export class Menu implements OnInit{
   ID_ANO: number = 0
   ID_MES: number = 0
 
-  constructor(private session: Session, private reports: ReportsService){ }
+  constructor(private session: Session, private cdr: ChangeDetectorRef){ }
+  
+  activeWorspace: string = 'dashboard'
+  
+  moduleWorkspace: any[] = [
+    {label: 'Dashboard', route: 'dashboard', icon: 'fa-solid fa-tags', component: Dashboard}
+  ]
+
+  engineWorkspace: any[] = [
+    {label: 'Dashboard', route: 'dashboard', icon: 'fa-solid fa-tags', component: Dashboard}
+  ]
 
   ngOnInit(): void {
     this.NM_ENTIDADE = this.session.NM_ENTIDADE
@@ -27,6 +39,12 @@ export class Menu implements OnInit{
     this.ID_ANO = this.session.ID_ANO
     this.ID_MES = this.session.ID_MES
     this.VERSION = this.session.VERSION
+
+    menuEngine.forEach(i => {
+      i.itens.forEach(x => {
+        this.moduleWorkspace.push(x)
+      })
+    })
   }
 
   meses: any = {
@@ -50,5 +68,27 @@ export class Menu implements OnInit{
     this.menuEngine.forEach(f => { if(f !== folder) f.open = false })
 
     folder.open = !folder.open
+  }
+
+  openComponent(i: any){
+
+    if(this.engineWorkspace.find(x => x.route === i.route)){
+      this.activeWorspace = i.route
+      return
+    }
+
+    this.engineWorkspace.push(i)
+    this.activeWorspace = i.route
+  }
+
+  closeComponent(i: any){
+
+    if(this.activeWorspace == i.route){
+      this.activeWorspace = 'dashboard'
+    }
+
+    this.engineWorkspace = this.engineWorkspace.filter(x => x.route !== i.route)
+
+    this.cdr.detectChanges()
   }
 }

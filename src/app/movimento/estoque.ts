@@ -118,7 +118,8 @@ export class Estoque {
         ID: "ID_CATEGORIA_DETALHE",
         DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
         joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'"
+        where: "TP_CATEGORIA = 'E'",
+        order: ["CD_CATEGORIA", "CD_DETALHE"]
       }
     },
     {
@@ -134,7 +135,7 @@ export class Estoque {
       type: "lookup",
       field: "ID_PESSOA",
       width: 24,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]}
+      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]}
     },
     {
       label: "Documento",
@@ -157,7 +158,7 @@ export class Estoque {
       type: "lookup",
       field: "ID_CONTA",
       width: 12,
-      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"]}
+      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"], order: ["CD_CONTA"]}
     },
     {
       label: "Valor Total",
@@ -223,7 +224,8 @@ export class Estoque {
             "table": "PRODUTOS",
             ID: "ID_PRODUTO",
             DS: ["CD_PRODUTO", "NM_PRODUTO"],
-            where: "1 = 1"
+            where: "1 = 1",
+            order: ["CD_PRODUTO"]
           },
           autocomplete: { type: "change", fill: ["UN_MEDIDA"]}
         },
@@ -297,7 +299,8 @@ export class Estoque {
         ID: "ID_CATEGORIA_DETALHE",
         DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
         joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'"
+        where: "TP_CATEGORIA = 'E'",
+        order: ["CD_CATEGORIA", "CD_DETALHE"]
       }
     },
     {
@@ -313,7 +316,7 @@ export class Estoque {
       type: "lookup",
       field: "ID_PESSOA",
       width: 24,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"]}
+      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]}
     },
     {
       label: "Documento",

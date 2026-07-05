@@ -28,7 +28,7 @@ export interface dataForm{
     expression?: string,
 
     options?: {ID: string, DS: string}[],
-    lookup?: {table: string, ID: string, DS: string[], joins?: string[], where?: string},
+    lookup?: {table: string, ID: string, DS: string[], joins?: string[], where?: string, order: string[]},
     autocomplete?: {type: "codigo"|"change"|"today", fill?: string[]},
     mask?: string
 }

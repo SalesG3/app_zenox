@@ -27,34 +27,16 @@
                     {{ i.label }}
                 </label>
 
-                <input
-                type="text"
-                [name]="i.field"
-                [id]="i.field"
-                [(ngModel)]="i.value"
-                >
+                <app-formgroup
+                [i]="i" 
+                [dataRow]="dataRow"
+                [dataConsult]="false"
+                [dataLookups]="dataLookups"
+                (onLookupFocus)="lookup($event)"
+                ></app-formgroup>
             </div>
         </div>
     </div>
-    <!--
-
-    <div class="container" *ngIf="selectReport">
-
-        <div class="filter-input" *ngFor="let i of selectReport.filters">
-            <label [for]="i.field">
-                {{ i.label }}
-            </label>
-
-            <input
-            type="text"
-            [name]="i.field"
-            [id]="i.field"
-            [(ngModel)]="dataFilters[i.field]"
-            >
-        </div>
-    </div>
-    -->
-    
 
     <div class="comp-tools">
         <button
