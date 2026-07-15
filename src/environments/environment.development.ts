@@ -1,3 +1,3 @@
 export const environment = {
-    api: 'https://apizenox.railway.internal:8081/'
+    api: 'https://apizenox-production.up.railway.app:8081/'
 };
