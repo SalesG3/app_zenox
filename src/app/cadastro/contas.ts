@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Engine } from '../session/engine/engine';
-import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../session/engine/interfaces';
+import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../session/engine/interfaces';
 
 @Component({
   selector: 'app-contas',
@@ -29,6 +29,7 @@ export class Contas {
     DG_CONTA: '',
     CD_AGENCIA: '',
     DS_CONTA: '',
+    ID_CIDADE: null,
     SN_ATIVO: true,
     HISTORICO: ''
   }
@@ -57,46 +58,56 @@ export class Contas {
       type: "sn_ativo"
     }
   ]
-  dataForm: dataForm[] = [
-    {
-      label: "Nº Conta",
-      type: "number",
-      field: "CD_CONTA",
-      width: 12,
-      required: true
-    },
-    {
-      label: "Digíto",
-      type: "number",
-      field: "DG_CONTA",
-      width: 4,
-      required: true
-    },
-    {
-      label: "Nº Agencia",
-      type: "number",
-      field: "CD_AGENCIA",
-      width: 8
-    },
-    {
-      label: "Descrição",
-      type: "text",
-      field: "DS_CONTA",
-      width: 24
-    },
-    {
-      label: "Ativo",
-      type: "checkbox",
-      field: "SN_ATIVO",
-      width: 2
-    },
-    {
-      label: "Histórico",
-      type: "textarea",
-      field: "HISTORICO",
-      width: 60
-    }
-  ]
+  dataForm: engineConfig = {
+    master: [
+      {
+        label: "Nº Conta",
+        type: "number",
+        field: "CD_CONTA",
+        width: 20,
+        required: true
+      },
+      {
+        label: "Digíto",
+        type: "number",
+        field: "DG_CONTA",
+        width: 8,
+        required: true
+      },
+      {
+        label: "Nº Agencia",
+        type: "number",
+        field: "CD_AGENCIA",
+        width: 15
+      },
+      {
+        label: "Cidade/UF",
+        type: "lookup",
+        field: "ID_CIDADE",
+        width: 18,
+        lookup: "CIDADES"
+      },
+      {
+        label: "Descrição",
+        type: "text",
+        field: "DS_CONTA",
+        width: 34
+      },
+      {
+        label: "Ativo",
+        type: "checkbox",
+        field: "SN_ATIVO",
+        width: 4
+      },
+      {
+        label: "Histórico",
+        type: "textarea",
+        field: "HISTORICO",
+        width: 100
+      }
+    ],
+    tabs: []
+  }
 
   subComponent: subComponent = { }
 

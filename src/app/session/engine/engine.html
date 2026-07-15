@@ -47,7 +47,7 @@
         <button
         class="btn-crud"
         (click)="btnSalvar()"
-        [disabled]="ngdataForm?.invalid"
+        [disabled]="ngdataForm?.invalid || subScreen"
 
         >
             <i class="fa-solid fa-floppy-disk"></i>
@@ -100,7 +100,7 @@
         <table class="dataGrid">
             <thead>
                 <tr>
-                    <th *ngFor="let i of columnsGrid" [style.width.rem]="i.width">
+                    <th *ngFor="let i of columnsGrid" [style.width.%]="i.width">
                         {{i.name}}
                     </th>
                 </tr>
@@ -148,9 +148,9 @@
 
     <div class="container-form" *ngIf="dataScreen">
         <form #ngdataForm="ngForm" class="dataForm">
-            <div class="form-group" *ngFor="let i of dataForm">
+            <div class="form-group" *ngFor="let i of dataForm.master" [style.width.%]="i.width">
 
-                <div class="input-group" [ngSwitch]="i.type" [style.width.rem]="i.width" [style.height.rem]="i.height">
+                <div class="input-group" [ngSwitch]="i.type"  [style.height.rem]="i.height">
 
                     <label [for]="i.field">
                         {{ i.label }}
@@ -176,12 +176,63 @@
                         [subColumns]="subComponent[i.field].subColumns"                        
                         [(subGrid)]="subGrids[i.field]"
                         (subGridChange)="calcInput()"
+                        (subScreenChange)="screenSubs($event)"
                         [supKey]="dataKey"
                         [subKey]="subComponent[i.field].subKey"
                         >
                     
                         </app-subengine>
                     </ng-container>
+                </div>
+            </div>
+
+            <div class="tabs-header" *ngIf="dataForm.tabs.length"> 
+                <button
+                class="btn-tabs"
+                [class.btn-active]="activeTab == i.id"
+                *ngFor="let i of dataForm.tabs"
+                (click)="activeTab = i.id"
+                >
+                    {{ i.label }}
+                </button>
+            </div>
+
+            <div class="tabs-body">
+                <div class="dataForm" *ngFor="let aba of dataForm.tabs">
+                    <div *ngFor="let i of aba.abaForm" [hidden]="activeTab !== aba.id">
+
+                        <div class="input-group" [ngSwitch]="i.type" [style.width.%]="i.width" [style.height.rem]="i.height">
+                            <label [for]="i.field">
+                                {{ i.label }}
+                                <span *ngIf="i.required" [style.color]="'red'">*</span>
+                            </label>
+
+                            <app-formgroup
+                            [i]="i" 
+                            [dataRow]="dataRow"
+                            [dataConsult]="dataConsult"
+                            [dataLookups]="dataLookups"
+                            (onLookupFocus)="lookup($event)"
+                            (onAutocomplete)="autocomplete($event)"
+                            (onConsultFile)="consultFile()"
+                            ></app-formgroup>
+
+                            <ng-container *ngSwitchCase="'subComponent'" >
+                                <app-subengine
+                                [subConsult]="dataConsult"
+                                [table]="i.field"
+                                [dataSub]="dataSub[i.field]"
+                                [subForm]="subComponent[i.field].subForm"
+                                [subColumns]="subComponent[i.field].subColumns"                        
+                                [(subGrid)]="subGrids[i.field]"
+                                (subGridChange)="calcInput()"
+                                (subScreenChange)="screenSubs($event)"
+                                [supKey]="dataKey"
+                                [subKey]="subComponent[i.field].subKey"
+                                ></app-subengine>
+                            </ng-container>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

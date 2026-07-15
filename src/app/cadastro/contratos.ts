@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../session/engine/interfaces';
+import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../session/engine/interfaces';
 import { Engine } from '../session/engine/engine';
 
 @Component({
@@ -66,7 +66,8 @@ export class Contratos {
     {
       name: "Valor",
       field: "VL_CONTRATO",
-      width: 8
+      width: 8,
+      type: 'currency'
     },
     {
       name: "Status",
@@ -77,77 +78,85 @@ export class Contratos {
     }
   ]
 
-  dataForm: dataForm[] = [
-    {
-      label: "Nº Contrato",
-      type: "text",
-      field: "CD_CONTRATO",
-      width: 12,
-      required: true
-    },
-    {
-      label: "Credor",
-      type: "lookup",
-      field: "ID_PESSOA",
-      width: 32,
-      lookup: { table: "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
-      required: true
-    },
-    {
-      label: "Assinatura",
-      type: "date",
-      field: "DT_ASSINATURA",
-      width: 8,
-      required: true
-    },
-    {
-      label: "Término",
-      type: "date",
-      field: "DT_TERMINO",
-      width: 8,
-      required: true
-    },
-    {
-      label: "Status",
-      type: "select",
-      field: "CD_STATUS",
-      width: 12,
-      options: [{ID: 'A', DS: 'Andamento'}, {ID: 'E', DS: 'Executado'}, {ID: 'R', DS: 'Rescindido'}],
-      required: true
-    },
-    {
-      label: "Descrição do Serviço",
-      type: "text",
-      field: "DS_CONTRATO",
-      width: 32,
-      required: true
-    },
-    {
-      label: "Valor",
-      type: "number",
-      field: "VL_CONTRATO",
-      width: 12,
-      required: true
-    },
-    {
-      label: "Aditivos do Contrato",
-      type: "subComponent",
-      field: "CONTRATO_ADITIVO",
-      width: 35,
-      height: 15,
-    },
-    {
-      label: "Objeto do Contrato",
-      type: "textarea",
-      field: "HISTORICO",
-      width: 35,
-      height: 15
-    }
-  ]
+  dataForm: engineConfig = {
+    master: [
+      {
+        label: "Nº Contrato",
+        type: "text",
+        field: "CD_CONTRATO",
+        width: 15,
+        required: true
+      },
+      {
+        label: "Credor",
+        type: "lookup",
+        field: "ID_PESSOA",
+        width: 45,
+        lookup: "PESSOAS",
+        required: true
+      },
+      {
+        label: "Assinatura",
+        type: "date",
+        field: "DT_ASSINATURA",
+        width: 15,
+        required: true
+      },
+      {
+        label: "Término",
+        type: "date",
+        field: "DT_TERMINO",
+        width: 15,
+        required: true
+      },
+      {
+        label: "Status",
+        type: "select",
+        field: "CD_STATUS",
+        width: 15,
+        options: [{ID: 'A', DS: 'Andamento'}, {ID: 'E', DS: 'Executado'}, {ID: 'R', DS: 'Rescindido'}],
+        required: true
+      },
+      {
+        label: "Descrição do Serviço",
+        type: "text",
+        field: "DS_CONTRATO",
+        width: 45,
+        required: true
+      },
+      {
+        label: "Valor",
+        type: "number",
+        field: "VL_CONTRATO",
+        width: 15,
+        required: true
+      },
+      {
+        label: "Aditivos do Contrato",
+        type: "subComponent",
+        field: "CONTRATO_ADITIVO",
+        width: 50,
+        height: 15,
+      },
+      {
+        label: "Objeto do Contrato",
+        type: "textarea",
+        field: "HISTORICO",
+        width: 50,
+        height: 16
+      }
+    ],
+    tabs: []
+  }
 
   subComponent: subComponent = {
     "CONTRATO_ADITIVO": {
       subColumns: [
+        {
+          name: "Nº Aditivo",
+          field: "CD_ADITIVO",
+          width: 12
+        },
         {
           name: "Assinatura",
           field: "DT_ASSINATURA",
@@ -155,20 +164,16 @@ export class Contratos {
           type: 'date'
         },
         {
-          name: "Nº Aditivo",
-          field: "CD_ADITIVO",
-          width: 12
-        },
-        {
-          name: "Valor",
-          field: "VL_ADITIVO",
-          width: 8
-        },
-        {
           name: "Término",
           field: "DT_TERMINO",
           width: 8,
           type: 'date'
+        },
+        {
+          name: "Valor",
+          field: "VL_ADITIVO",
+          width: 8,
+          type: "currency"
         }
       ],
       subForm: [
@@ -176,25 +181,29 @@ export class Contratos {
           label: "Nº Aditivo",
           type: "text",
           field: "CD_ADITIVO",
-          width: 12
+          width: 20,
+          required: true
         },
         {
           label: "Assinatura",
           type: "date",
           field: "DT_ASSINATURA",
-          width: 8
+          width: 20,
+          required: true
         },
         {
           label: "Termino",
           type: "date",
           field: "DT_TERMINO",
-          width: 8
+          width: 20,
+          required: true
         },
         {
           label: "Valor",
-          type: "number",
+          type: "currency",
           field: "VL_ADITIVO",
-          width: 12
+          width: 20,
+          required: true
         }
       ]
     }
@@ -213,7 +222,7 @@ export class Contratos {
       type: "lookup",
       field: "ID_PESSOA",
       width: 32,
-      lookup: { table: "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
+      lookup: "PESSOAS",
       required: true
     },
     {

@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-formgroup',
-  imports: [FormsModule, CommonModule, NgxMaskDirective],
+  imports: [FormsModule, CommonModule, NgxMaskDirective, NgSelectModule],
   templateUrl: './formgroup.html',
   styleUrl: './formgroup.css',
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
 export class Formgroup {
   
@@ -36,11 +38,15 @@ export class Formgroup {
   autocomplete(ID: any){
     if(this.i.autocomplete && this.i.autocomplete.type == 'change' && ID){
 
-      let data = {
+      let data1 = {
         ID: ID,
-        table: this.i.lookup.table,
+        table: this.i.lookup,
         fill: this.i.autocomplete.fill
       }
+
+      let data = Object.fromEntries(this.i.autocomplete.fill.map(
+        (key: any) => [key, ID[key]]
+      ))
 
       this.onAutocomplete.emit(data)
     }

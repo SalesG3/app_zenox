@@ -18,7 +18,7 @@ export interface columnsGrid {
 
 export interface dataForm{
     label: string,
-    type: "text"|"number"|"date"|"lookup"|"select"|"checkbox"|"textarea"|"subComponent"|"file"|"img",
+    type: "text"|"number"|"date"|"lookup"|"select"|"checkbox"|"textarea"|"subComponent"|"file"|"img"|"currency",
     field: string,
     width: number,
 
@@ -28,7 +28,7 @@ export interface dataForm{
     expression?: string,
 
     options?: {ID: string, DS: string}[],
-    lookup?: {table: string, ID: string, DS: string[], joins?: string[], where?: string, order: string[]},
+    lookup?: string,
     autocomplete?: {type: "codigo"|"change"|"today", fill?: string[]},
     mask?: string
 }
@@ -44,5 +44,11 @@ export interface subComponent {
 export interface abaForm {
     label: string,
     id: string,
+    height: number,
     abaForm: dataForm[]
+}
+
+export interface engineConfig{
+    master: dataForm[],
+    tabs: abaForm[]
 }

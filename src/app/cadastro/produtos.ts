@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { columnsGrid, dataForm, dataRow, dataSub } from '../session/engine/interfaces';
+import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../session/engine/interfaces';
 import { Engine } from '../session/engine/engine';
 
 @Component({
@@ -30,7 +30,8 @@ export class Produtos {
     CD_BARRAS: '',
     UN_MEDIDA: '',
     ID_PESSOA: null,
-    NM_MARCA: ''
+    NM_MARCA: '',
+    SN_ATIVO: true
   }
 
   dataSub: dataSub = {
@@ -39,7 +40,19 @@ export class Produtos {
       DT_INICIO: '',
       MIN_ESTOQUE: '',
       MED_ESTOQUE: '',
-      MAX_ESTOQUE: ''
+      MAX_ESTOQUE: '',
+      MED_CUSTO:'',
+      MAX_CUSTO:'',
+      MED_PRECO:'',
+      MIN_PRECO:''
+    },
+    "PRODUTO_MATERIAL": {
+      ID_PRODUTO: 0,
+      DT_MATERIAL: '',
+      ID_MATERIAL: '',
+      DS_MATERIAL: '',
+      QT_MATERIAL: '',
+      SN_ATIVO: true
     }
   }
 
@@ -59,7 +72,7 @@ export class Produtos {
       field: "TP_PRODUTO",
       width: 12,
       type: 'select',
-      options: {"M": "Matéria-Prima", "R":"Revenda", "P":"Produzido", "S":"Serviço"}
+      options: {"M": "Material", "P":"Produto", "S":"Serviço"}
     },
     {
       name: "Un Medida",
@@ -73,73 +86,95 @@ export class Produtos {
     }
   ]
 
-  dataForm: dataForm[] = [
-    {
-      label: "Código",
-      type: "number",
-      field: "CD_PRODUTO",
-      width: 8,
-      required: true,
-      autocomplete: {type: 'codigo'}
-    },
-    {
-      label: "Nome",
-      type: "text",
-      field: "NM_PRODUTO",
-      width: 32,
-      required: true
-    },
-    {
-      label: "Tipo",
-      type: "select",
-      field: "TP_PRODUTO",
-      width: 12,
-      required: true,
-      options: [{ID: "M", DS: "Matéria-Prima"}, {ID: "R", DS: "Revenda"}, {ID: "P", DS: "Produzido"}, {ID: "S", DS: "Serviço"}]
-    },
-    {
-      label: "Código de Barras",
-      type: "text",
-      field: "CD_BARRAS",
-      width: 16,
-    },
-    {
-      label: "Un. Medida",
-      type: "text",
-      field: "UN_MEDIDA",
-      width: 8,
-      required: true
-    },
-    {
-      label: "Fornecedor",
-      type: "lookup",
-      field: "ID_PESSOA",
-      width: 32,
-      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO'], order: ["CD_PESSOA"]}
-    },
-    {
-      label: "Marca",
-      type: "text",
-      field: "NM_MARCA",
-      width: 16,
-    },
-    {
-      label: "Controle de Estoque",
-      type: "subComponent",
-      field: "PRODUTO_ESTOQUE",
-      width: 35,
-      height: 15,
-    },
-    {
-      label: "Histórico",
-      type: "textarea",
-      field: "HISTORICO",
-      width: 35,
-      height: 15,
-    }
-  ]
+  dataForm: engineConfig = {
+    master: [
+      {
+        label: "Código",
+        type: "number",
+        field: "CD_PRODUTO",
+        width: 8,
+        required: true,
+        autocomplete: {type: 'codigo'}
+      },
+      {
+        label: "Tipo",
+        type: "select",
+        field: "TP_PRODUTO",
+        width: 16,
+        required: true,
+        options: [{ID: "M", DS: "Material"}, {ID: "P", DS: "Produto"}, {ID: "S", DS: "Serviço"}]
+      },
+      {
+        label: "Nome",
+        type: "text",
+        field: "NM_PRODUTO",
+        width: 40,
+        required: true
+      },
+      {
+        label: "Categoria",
+        type: "lookup",
+        field: "ID_CATEGORIA",
+        width: 16,
+        lookup: "CATEGORIAS_PRODUTOS"
+      },
+      {
+        label: "Código de Barras",
+        type: "text",
+        field: "CD_BARRAS",
+        width: 16,
+      },
+      {
+        label: "Ativo",
+        type: "checkbox",
+        field: "SN_ATIVO",
+        width: 4
+      },
+      {
+        label: "Un. Medida",
+        type: "text",
+        field: "UN_MEDIDA",
+        width: 8,
+        required: true
+      },
+      {
+        label: "Marca",
+        type: "text",
+        field: "NM_MARCA",
+        width: 16,
+      },
+      {
+        label: "Fornecedor",
+        type: "lookup",
+        field: "ID_PESSOA",
+        width: 40,
+        lookup: "PESSOAS"
+      },
+      {
+        label: "Histórico",
+        type: "textarea",
+        field: "HISTORICO",
+        width: 100
+      },
+      {
+        label: "Controle de Estoque",
+        type: "subComponent",
+        field: "PRODUTO_ESTOQUE",
+        width: 50,
+        height: 15,
+      },
+      {
+        label: "Material Necessário",
+        type: "subComponent",
+        field: "PRODUTO_MATERIAL",
+        width: 50,
+        height: 15,
+      },
+    ],
+    tabs: []
+  }
 
-  subComponent: any = {
+  subComponent: subComponent = {
     "PRODUTO_ESTOQUE": {
       
       subColumns: [
@@ -155,7 +190,7 @@ export class Produtos {
           width: 8
         },
         {
-          name: "Estoque Rec",
+          name: "Estoque Med",
           field: "MED_ESTOQUE",
           width: 8
         },
@@ -170,32 +205,128 @@ export class Produtos {
           label: "Data Início",
           type: "date",
           field: "DT_INICIO",
-          width: 10,
-          required: true
+          width: 22.5,
+          required: true,
+          autocomplete: { type: "today" }
         },
         {
           label: "Estoque Min",
           type: "number",
           field: "MIN_ESTOQUE",
-          width: 10,
+          width: 22.5,
           required: true
         },
         {
-          label: "Estoque Rec",
+          label: "Estoque Med",
           type: "number",
           field: "MED_ESTOQUE",
-          width: 10,
+          width: 22.5,
           required: true
         },
         {
           label: "Estoque Max",
           type: "number",
           field: "MAX_ESTOQUE",
-          width: 10,
+          width: 22.5,
+          required: true
+        },
+        {
+          label: "Custo Med",
+          type: "currency",
+          field: "MED_CUSTO",
+          width: 22.5,
+          required: true
+        },
+        {
+          label: "Custo Max",
+          type: "currency",
+          field: "MAX_CUSTO",
+          width: 22.5,
+          required: true
+        },
+        {
+          label: "Preço Min",
+          type: "currency",
+          field: "MIN_PRECO",
+          width: 22.5,
+          required: true
+        },
+        {
+          label: "Preço Med",
+          type: "currency",
+          field: "MED_PRECO",
+          width: 22.5,
           required: true
         }
       ]
+    },
+    "PRODUTO_MATERIAL": {
+      
+      subColumns: [
+        {
+          name: "Data",
+          field: "DT_MATERIAL",
+          width: 20,
+          type: "date"
+        },
+        {
+          name: "Material",
+          field: "ID_MATERIAL",
+          width: 50,
+          type: "lookup",
+          table: "PRODUTOS_MATERIAL"
+        },
+        {
+          name: "Qtde.",
+          field: "QT_MATERIAL",
+          width: 15
+        },
+        {
+          name: "Ativo",
+          field: "SN_ATIVO",
+          width: 15,
+          type: "sn_ativo"
+        }
+      ],
+      subForm: [
+        {
+          label: "Dt. Início",
+          type: "date",
+          field: "DT_MATERIAL",
+          width: 20,
+          autocomplete: { type: "today" },
+          required: true
+        },
+        {
+          label: "Material",
+          type: "lookup",
+          field: "ID_MATERIAL",
+          width: 60,
+          lookup: "PRODUTOS_MATERIAL",
+          required: true
+        },
+        {
+          label: "Ativo",
+          type: "checkbox",
+          field: "SN_ATIVO",
+          width: 6
+        },
+        {
+          label: "Qtde.",
+          type: "number",
+          field: "QT_MATERIAL",
+          width: 20,
+          required: true
+        },
+        {
+          label: "Observação",
+          type: "text",
+          field: "DS_MATERIAL",
+          width: 60
+        }
+      ]
     }
+    
   }
 
   formFilter : dataForm[] = [
@@ -216,7 +347,7 @@ export class Produtos {
       type: "select",
       field: "TP_PRODUTO",
       width: 12,
-      options: [{ID: "M", DS: "Matéria-Prima"}, {ID: "R", DS: "Revenda"}, {ID: "P", DS: "Produzido"}, {ID: "S", DS: "Serviço"}]
+      options: [{ID: "M", DS: "Material"}, {ID: "P", DS: "Produto"}, {ID: "S", DS: "Serviço"}]
     },
     {
       label: "Código de Barras",
@@ -235,7 +366,7 @@ export class Produtos {
       type: "lookup",
       field: "ID_PESSOA",
       width: 32,
-      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO'], order: ["CD_PESSOA"]}
+      lookup: "pessoas"
     },
     {
       label: "Marca",

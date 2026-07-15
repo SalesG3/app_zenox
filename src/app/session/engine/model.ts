@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Engine } from './engine';
-import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../../session/engine/interfaces';
+import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../../session/engine/interfaces';
 
 @Component({
   selector: 'app-model',
@@ -27,7 +27,7 @@ export class Model {
   dataSub: dataSub = { }
 
   columnsGrid: columnsGrid[] = [ ]
-  dataForm: dataForm[] = [ ]
+  dataForm: engineConfig = {master: [], tabs: []}
   subComponent: subComponent = { }
 
 }

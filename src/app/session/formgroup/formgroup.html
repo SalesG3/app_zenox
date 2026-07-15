@@ -58,23 +58,23 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'lookup'">
-        <select
+        <ng-select
         [name]="i.field"
         [id]="i.field"
         [(ngModel)]="dataRow[i.field]"
         [disabled]="dataConsult"
-        [required]="i.required||false"
-
+        [required]="i.required || false"
         (focus)="lookup()"
-        (ngModelChange)="autocomplete($event)"
-
-        [ngClass]="{'required': i.required && dataRow[i.field] == ''}"
-        >
-            <option value="" hidden></option>
-            <option *ngFor="let x of dataLookups[i.lookup?.table || '']" [value]="x.ID">
-                {{x.DS}}
-            </option>
-        </select>
+        (change)="autocomplete($event)"
+        [ngClass]="{'required': i.required && !dataRow[i.field]}"
+        [clearOnBackspace]="true"
+        [clearable]="false"
+        
+        [items]="dataLookups[i.lookup || '']"
+        bindLabel="DS"
+        bindValue="ID"
+        class="estilo-nativo"
+        ></ng-select>
     </ng-container>
 
     <ng-container *ngSwitchCase="'select'">
@@ -155,9 +155,24 @@
         class="input-file"
         accept="image/png, image/jpeg, image/webp"
         (change)="inputImg($event)">
+    </ng-container>
 
-            
-        
+    <ng-container *ngSwitchCase="'currency'">
+        <input
+        type="text"
+        [name]="i.field"
+        [id]="i.field"
+        [(ngModel)]="dataRow[i.field]"
+        [disabled]="dataConsult"
+        [required]="i.required||false"
+        [readonly]="i.readonly||false"
+        [ngClass]="{'required': i.required && dataRow[i.field] === ''}"
+
+        mask="separator.2" 
+        thousandSeparator="." 
+        decimalMarker="," 
+        prefix="R$ " 
+        [dropSpecialCharacters]="true">
     </ng-container>
 
 </ng-container>

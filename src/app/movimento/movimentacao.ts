@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../session/engine/interfaces';
+import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../session/engine/interfaces';
 import { Engine } from '../session/engine/engine';
 
 @Component({
@@ -35,14 +35,14 @@ export class Movimentacao {
     CD_STATUS: '',
     VL_DESCONTO: '',
     VL_MOVIMENTACAO: '',
-    CD_METODO: '',
-    ID_CONTA: '',
+    DOC_MOVIMENTACAO: '',
     HISTORICO: ''
   }
 
   dataSub: dataSub = {
     "MOVIMENTACOES_ITENS": {
       ID_MOVIMENTACAO_ITEM: 0,
+      CD_ITENS: '',
       ID_PRODUTO: '',
       DS_ITENS: '',
       UN_MEDIDA: '',
@@ -93,125 +93,114 @@ export class Movimentacao {
     }
   ]
 
-  dataForm: dataForm[] = [
-    {
-      label: "Data",
-      type: "date",
-      field: "DT_MOVIMENTACAO",
-      width: 8,
-      required: true
-    },
-    {
-      label: "Tipo",
-      type: "select",
-      field: "TP_MOVIMENTACAO",
-      width: 12,
-      required: true,
-      options: [{ID: "V", DS: "Venda"}, {ID: "O", DS: "Ordem de Serviço"}]
-    },
-    {
-      label: "Descrição",
-      type: "text",
-      field: "DS_MOVIMENTACAO",
-      width: 25,
-      required: true
-    },
-    {
-      label: "Categoria",
-      type: "lookup",
-      field: "ID_CATEGORIA_DETALHE",
-      width: 12,
-      lookup: { 
-        table: "CATEGORIA_DETALHE",
-        ID: "ID_CATEGORIA_DETALHE",
-        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
-        joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'M'",
-        order: ["CD_CATEGORIA", "CD_DETALHE"]
-      }
-    },
-    {
-      label: "Status",
-      type: "select",
-      field: "CD_STATUS",
-      width: 8,
-      options: [
-        {ID: "O", DS: "Orçamento"}, 
-        {ID: "A", DS: "Aprovado"}, 
-        {ID: "L", DS: "Liquidado"}, 
-        {ID: "P", DS: "Pago"}
-      ],
-      required: true
-    },
-    {
-      label: "Contrato",
-      type: "lookup",
-      field: "ID_CONTRATO",
-      width: 14,
-      lookup: {
-        "table": "CONTRATOS",
-        ID: "ID_CONTRATO",
-        DS: ["CD_CONTRATO","DS_CONTRATO"],
-        where: "CD_STATUS = 'A'",
-        order: ["CD_CONTRATO"]
+  dataForm: engineConfig = {
+    master: [
+      {
+        label: "Código",
+        type: "number",
+        field: "CD_MOVIMENTACAO",
+        width: 8,
+        autocomplete: { type: "codigo" },
+        required: true
       },
-      autocomplete: { type: "change", fill: ["ID_PESSOA"] }
-    },
-    {
-      label: "Credor",
-      type: "lookup",
-      field: "ID_PESSOA",
-      width: 20,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
-      required: true
-    },
-    {
-      label: "Método",
-      type: "select",
-      field: "CD_METODO",
-      width: 8,
-      options: [
-        {ID: "C", DS: "Crédito"}, {ID: "D", DS: "Débito"}, {ID: "G", DS: "Dinheiro"},
-        {ID: "P", DS: "Pix"}, {ID: "T", DS: "Transferência"}
-      ]
-    },
-    {
-      label: "Conta Bancária",
-      type: "lookup",
-      field: "ID_CONTA",
-      width: 8,
-      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"], order: ["CD_CONTA"]}
-    },
-    {
-      label: "Desconto",
-      type: "number",
-      field: "VL_DESCONTO",
-      width: 8
-    },
-    {
-      label: "Total da OS/Venda",
-      type: "number", 
-      field: "VL_MOVIMENTACAO",
-      width: 8,
-      required: true,
-      readonly: true,
-      expression: "SUM(MOVIMENTACOES_ITENS.VL_TOTAL)"
-    },
-    {
-      label: "Itens da OS/Venda",
-      type: "subComponent",
-      field: "MOVIMENTACOES_ITENS",
-      width: 35,
-      height: 15 
-    },
-    {
-      label: "Histórico",
-      type: "textarea",
-      field: "HISTORICO",
-      width: 35,
-      height: 15
-    }
-  ]
+      {
+        label: "Data",
+        type: "date",
+        field: "DT_MOVIMENTACAO",
+        width: 12,
+        required: true,
+        autocomplete: { type: "today" }
+      },
+      {
+        label: "Tipo",
+        type: "select",
+        field: "TP_MOVIMENTACAO",
+        width: 12,
+        required: true,
+        options: [{ID: "V", DS: "Venda"}, {ID: "O", DS: "Ordem de Serviço"}]
+      },
+      {
+        label: "Descrição",
+        type: "text",
+        field: "DS_MOVIMENTACAO",
+        width: 48,
+        required: true
+      },
+      {
+        label: "Categoria",
+        type: "lookup",
+        field: "ID_CATEGORIA_DETALHE",
+        width: 20,
+        lookup: "CATEGORIA_MOVIMENTACAO",
+        required: true
+      },
+      {
+        label: "Status",
+        type: "select",
+        field: "CD_STATUS",
+        width: 10,
+        options: [
+          {ID: "O", DS: "Orçamento"}, 
+          {ID: "A", DS: "Aprovado"}, 
+          {ID: "L", DS: "Liquidado"}, 
+          {ID: "P", DS: "Pago"}
+        ],
+        required: true
+      },
+      {
+        label: "Contrato",
+        type: "lookup",
+        field: "ID_CONTRATO",
+        width: 22,
+        lookup: "CONTRATOS",
+        autocomplete: { type: "change", fill: ["ID_PESSOA"] }
+      },
+      {
+        label: "Credor",
+        type: "lookup",
+        field: "ID_PESSOA",
+        width: 32,
+        lookup: "PESSOAS",
+        required: true
+      },
+      {
+        label: "Documento",
+        type: "text",
+        field: "DOC_MOVIMENTACAO",
+        width: 12
+      },
+      {
+        label: "Desconto",
+        type: "currency",
+        field: "VL_DESCONTO",
+        width: 12
+      },
+      {
+        label: "Total da OS/Venda",
+        type: "currency", 
+        field: "VL_MOVIMENTACAO",
+        width: 12,
+        required: true,
+        readonly: true,
+        expression: "SUM(MOVIMENTACOES_ITENS.VL_TOTAL) - dataRow.VL_DESCONTO"
+      },
+      {
+        label: "Itens da OS/Venda",
+        type: "subComponent",
+        field: "MOVIMENTACOES_ITENS",
+        width: 50,
+        height: 15 
+      },
+      {
+        label: "Histórico",
+        type: "textarea",
+        field: "HISTORICO",
+        width: 50,
+        height: 16.1
+      }
+    ],
+    tabs: []
+  }
 
   subComponent: subComponent = {
     "MOVIMENTACOES_ITENS": {
@@ -222,7 +211,7 @@ export class Movimentacao {
           field: "ID_PRODUTO",
           width: 24,
           type: "lookup",
-          table: "PRODUTOS"
+          table: "PRODUTOS_MOVIMENTACAO"
         },
         {
           name: "Qtd",
@@ -244,44 +233,57 @@ export class Movimentacao {
       ],
       subForm: [
         {
+          label: "Código",
+          type: "number",
+          field: "CD_ITENS",
+          width: 12,
+          autocomplete: { type: "codigo" },
+          required: true
+        },
+        {
           label: "Produto / Serviço",
           type: "lookup",
           field: "ID_PRODUTO",
-          width: 24,
-          lookup: { "table": "PRODUTOS", ID: "ID_PRODUTO", DS: ["CD_PRODUTO","NM_PRODUTO"], where: "TP_PRODUTO IN ('P','S')", order: ["CD_PRODUTO"]},
-          autocomplete: {type: 'change', fill: ["UN_MEDIDA"]}
+          width: 50,
+          lookup: "PRODUTOS_MOVIMENTACAO",
+          autocomplete: {type: 'change', fill: ["UN_MEDIDA", "VL_UNITARIO"]},
+          required: true
+        },
+        {
+          label: "UN",
+          type: "text",
+          field: "UN_MEDIDA",
+          width: 14,
+          readonly: true,
+          required: true    
+        },
+        {
+          label: "Qtde",
+          type: "number",
+          field: "QT_ITENS",
+          width: 14,
+          required: true
         },
         {
           label: "Observação",
           type: "text",
           field: "DS_ITENS",
-          width: 16
+          width: 63.5
         },
         {
-          label: "Medida",
-          type: "text",
-          field: "UN_MEDIDA",
-          width: 4,
-          readonly: true        
-        },
-        {
-          label: "Quantidade",
-          type: "number",
-          field: "QT_ITENS",
-          width: 8
-        },
-        {
-          label: "Valor Unitário",
-          type: "number",
+          label: "Vl Unit",
+          type: "currency",
           field: "VL_UNITARIO",
-          width: 8
+          width: 14,
+          required: true
         },
         {
-          label: "Valor Total",
+          label: "Vl Total",
           type: "number",
           field: "VL_TOTAL",
-          width: 8,
+          width: 14,
           readonly: true,
+          required: true,
           expression: "dataSub.QT_ITENS * dataSub.VL_UNITARIO"
         }
       ]
@@ -316,14 +318,7 @@ export class Movimentacao {
       type: "lookup",
       field: "ID_CATEGORIA_DETALHE",
       width: 12,
-      lookup: { 
-        table: "CATEGORIA_DETALHE",
-        ID: "ID_CATEGORIA_DETALHE",
-        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
-        joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'",
-        order: ["CD_CATEGORIA","CD_DETALHE"]
-      }
+      lookup: "categorias"
     },
     {
       label: "Status",
@@ -343,13 +338,7 @@ export class Movimentacao {
       type: "lookup",
       field: "ID_CONTRATO",
       width: 14,
-      lookup: {
-        "table": "CONTRATOS",
-        ID: "ID_CONTRATO",
-        DS: ["CD_CONTRATO","DS_CONTRATO"],
-        where: "CD_STATUS = 'A'",
-        order: ["CD_CONTRATO"]
-      },
+      lookup: "contratos",
       autocomplete: { type: "change", fill: ["ID_PESSOA"] }
     },
     {
@@ -357,7 +346,7 @@ export class Movimentacao {
       type: "lookup",
       field: "ID_PESSOA",
       width: 20,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
+      lookup: "PESSOAS",
       required: true
     }
   ]

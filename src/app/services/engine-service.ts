@@ -108,23 +108,38 @@ export class EngineService {
   async lookup(lookup: any){
 
 
-    let req = await fetch(environment.api + 'lookup/' + lookup.table, {
-      method: "POST",
+    let req = await fetch(environment.api + 'lookup/' + lookup, {
+      method: "GET",
       headers: {
         "Content-Type":"application/json",
         x_session: this.session.X_SESSION
-      },
-      body: JSON.stringify(lookup)
+      }
     })
 
     let data = await req.json()
+    
+    return data
+  }
 
+  async filters(lookup: any){
+
+
+    let req = await fetch(environment.api + 'filters/' + lookup, {
+      method: "GET",
+      headers: {
+        "Content-Type":"application/json",
+        x_session: this.session.X_SESSION
+      }
+    })
+
+    let data = await req.json()
+    
     return data
   }
 
   async autocomplete(autocomplete: any){
 
-    let req = await fetch(environment.api + 'change/' + autocomplete.table, {
+    let req = await fetch(environment.api + 'change/' + autocomplete, {
       method: "POST",
       headers: {
         "Content-Type":"application/json",
@@ -162,6 +177,22 @@ export class EngineService {
         x_session: this.session.X_SESSION,
       },
       body: JSON.stringify({})
+    })
+
+    let data = await req.json()
+
+    return data
+  }
+
+  async reportEmit(report: any){
+
+    let req = await fetch(environment.api + `reports/${report.report}`, {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json",
+        "X_SESSION": this.session.X_SESSION
+      },
+      body: JSON.stringify(report.dataRow)
     })
 
     let data = await req.json()

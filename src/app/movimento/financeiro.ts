@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../session/engine/interfaces';
+import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../session/engine/interfaces';
 import { Engine } from '../session/engine/engine';
 
 @Component({
@@ -33,8 +33,7 @@ export class Financeiro {
     CD_STATUS: '',
     ID_CONTRATO: '',
     ID_PESSOA: '',
-    CD_METODO: '',
-    ID_CONTA: '',
+    DOC_FINANCEIRO: '',
     VL_FINANCEIRO: '',
   }
 
@@ -44,8 +43,6 @@ export class Financeiro {
       DT_DOCUMENTO: '',
       TP_DOCUMENTO: '',
       DS_DOCUMENTO: '',
-      ANEXO: '',
-      SN_ANEXO: false
     }
   }
 
@@ -89,114 +86,101 @@ export class Financeiro {
       width: 6
     }
   ]
-  dataForm: dataForm[] = [
-    {
-      label: "Data",
-      type: "date",
-      field: "DT_FINANCEIRO",
-      width: 8,
-      required: true
-    },
-    {
-      label: "Tipo",
-      type: "select",
-      field: "TP_FINANCEIRO",
-      width: 8,
-      required: true,
-
-      options: [{ID: "D", DS: "Despesa"}, {ID: "R", DS: "Receita"}]
-    },
-    {
-      label: "Descrição",
-      type: "text",
-      field: "DS_FINANCEIRO",
-      width: 33,
-      required: true
-    },
-    {
-      label: "Categoria",
-      type: "lookup",
-      field: "ID_CATEGORIA_DETALHE",
-      width: 12,
-      lookup: { 
-        table: "CATEGORIA_DETALHE",
-        ID: "ID_CATEGORIA_DETALHE",
-        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
-        joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'",
-        order: ["CD_CATEGORIA", "CD_DETALHE"]
-      }
-    },
-    {
-      label: "Status",
-      type: "select",
-      field: "CD_STATUS",
-      width: 8,
-      options: [{ID: "L", DS: "Liquidado"}, {ID: "P", DS: "Pago"}],
-      required: true
-    },
-    {
-      label: "Contrato",
-      type: "lookup",
-      field: "ID_CONTRATO",
-      width: 17,
-      lookup: {
-        "table": "CONTRATOS",
-        ID: "ID_CONTRATO",
-        DS: ["CD_CONTRATO","NM_PESSOA"],
-        joins: ["PESSOAS"],
-        where: "CD_STATUS = 'A'",
-        order: ["CD_CONTRATO"]
+  dataForm: engineConfig = {
+    master: [
+      {
+        label: "Código",
+        type: "number",
+        field: "CD_FINANCEIRO",
+        width: 8,
+        required: true,
+        autocomplete: { type: "codigo" }
       },
-      autocomplete: {type: 'change', fill: ["ID_PESSOA"]}
-    },
-    {
-      label: "Credor / Fornecedor",
-      type: "lookup",
-      field: "ID_PESSOA",
-      width: 24,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]},
-      required: true
-    },
-    {
-      label: "Método",
-      type: "select",
-      field: "CD_METODO",
-      width: 8,
-      options: [
-        {ID: "C", DS: "Crédito"}, {ID: "D", DS: "Débito"}, {ID: "G", DS: "Pagamento"},
-        {ID: "P", DS: "Pix"}, {ID: "T", DS: "Transferência"}
-      ]
-    },
-    {
-      label: "Conta Bancária",
-      type: "lookup",
-      field: "ID_CONTA",
-      width: 12,
-      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"], order: ["CD_CONTA"]}
-    },
-    {
-      label: "Valor",
-      type: "number",
-      field: "VL_FINANCEIRO",
-      width: 8,
-      required: true
-    },
-    {
-      label: "Documentos Comprobatórios",
-      type: "subComponent",
-      field: "FINANCEIRO_DOCUMENTOS",
-      width: 35,
-      height: 15 
-    },
-    {
-      label: "Histórico",
-      type: "textarea",
-      field: "HISTORICO",
-      width: 35,
-      height: 15
-    }
-  ]
+      {
+        label: "Data",
+        type: "date",
+        field: "DT_FINANCEIRO",
+        width: 12,
+        required: true,
+        autocomplete: { type: "today" }
+      },
+      {
+        label: "Tipo",
+        type: "select",
+        field: "TP_FINANCEIRO",
+        width: 12,
+        required: true,
+
+        options: [{ID: "D", DS: "Despesa"}, {ID: "R", DS: "Receita"}]
+      },
+      {
+        label: "Descrição",
+        type: "text",
+        field: "DS_FINANCEIRO",
+        width: 48,
+        required: true
+      },
+      {
+        label: "Categoria",
+        type: "lookup",
+        field: "ID_CATEGORIA_DETALHE",
+        width: 20,
+        lookup: "CATEGORIA_FINANCEIRO"
+      },
+      {
+        label: "Status",
+        type: "select",
+        field: "CD_STATUS",
+        width: 10,
+        options: [{ID: "L", DS: "Liquidado"}, {ID: "P", DS: "Pago"}],
+        required: true
+      },
+      {
+        label: "Contrato",
+        type: "lookup",
+        field: "ID_CONTRATO",
+        width: 22,
+        lookup: "CONTRATOS",
+        autocomplete: {type: 'change', fill: ["ID_PESSOA"]}
+      },
+      {
+        label: "Credor / Fornecedor",
+        type: "lookup",
+        field: "ID_PESSOA",
+        width: 40,
+        lookup: "PESSOAS",
+        required: true
+      },
+      {
+        label: "Documento",
+        type: "text",
+        field: "DOC_FINANCEIRO",
+        width: 16
+      },
+      {
+        label: "Valor",
+        type: "currency",
+        field: "VL_FINANCEIRO",
+        width: 12,
+        required: true
+      },
+      {
+        label: "Documentos Comprobatórios",
+        type: "subComponent",
+        field: "FINANCEIRO_DOCUMENTOS",
+        width: 50,
+        height: 15 
+      },
+      {
+        label: "Histórico",
+        type: "textarea",
+        field: "HISTORICO",
+        width: 50,
+        height: 16.1
+      }
+    ],
+    tabs: []
+  }
 
   subComponent: subComponent = {
     "FINANCEIRO_DOCUMENTOS": {
@@ -205,18 +189,18 @@ export class Financeiro {
         {
           name: "Data",
           field: "DT_DOCUMENTO",
-          width: 8,
+          width: 20,
           type: 'date'
         },
         {
           name: "Tipo",
           field: "TP_DOCUMENTO",
-          width: 8
+          width: 20
         },
         {
           name: "Descrição",
           field: "DS_DOCUMENTO",
-          width: 12
+          width: 55
         }
       ],
       subForm: [
@@ -224,26 +208,23 @@ export class Financeiro {
           label: "Data",
           type: "date",
           field: "DT_DOCUMENTO",
-          width: 8
+          width: 20,
+          required: true
         },
         {
           label: "Tipo",
           type: "select",
           field: "TP_DOCUMENTO",
-          width: 8,
-          options: [{ID: "C", DS: "Comprovante"},{ID: "N", DS: "Nota Fiscal"},{ID: "G", DS: "Guia de Pagto"},{ID: "R", DS: "Recibo"}, {ID: "O", DS: "Outros"}]
+          width: 20,
+          options: [{ID: "C", DS: "Comprovante"},{ID: "N", DS: "Nota Fiscal"},{ID: "G", DS: "Guia de Pagto"},{ID: "R", DS: "Recibo"}, {ID: "O", DS: "Outros"}],
+          required: true
         },
         {
           label: "Descrição",
           type: "text",
           field: "DS_DOCUMENTO",
-          width: 16
-        },
-        {
-          label: "Anexo",
-          type: "file",
-          field: "ANEXO",
-          width: 24
+          width: 55,
+          required: true
         }
       ]
     }
@@ -255,7 +236,7 @@ export class Financeiro {
       type: "lookup",
       field: "ID_PESSOA",
       width: 32,
-      lookup: {table: 'PESSOAS', ID: 'ID_PESSOA', DS: ['CD_PESSOA', 'NM_PESSOA','CADASTRO'], order: ["CD_PESSOA"]}
+      lookup: "pessoas"
     },
     {
       label: "Data",
@@ -285,14 +266,7 @@ export class Financeiro {
       type: "lookup",
       field: "ID_CATEGORIA_DETALHE",
       width: 12,
-      lookup: { 
-        table: "CATEGORIA_DETALHE",
-        ID: "ID_CATEGORIA_DETALHE",
-        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
-        joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'F'",
-        order: ["CD_CATEGORIA", "CD_DETALHE"]
-      }
+      lookup: "categorias"
     },
     {
       label: "Status",

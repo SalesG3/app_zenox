@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { EngineService } from '../../services/engine-service';
-import { columnsGrid, dataForm} from './interfaces'
+import { columnsGrid, dataForm, engineConfig} from './interfaces'
 import { Subengine } from '../subengine/subengine';
 import { Formgroup } from '../formgroup/formgroup';
 
@@ -22,21 +22,25 @@ export class Engine implements OnInit {
   @Input() dataSub: any = {}
 
   @Input() columnsGrid: columnsGrid[] = []
-  @Input() dataForm: dataForm[] = []
+  @Input() dataForm !: engineConfig
   @Input() subComponent: any = {}
 
   @Input() formFilter: dataForm[] = []
 
   dataError: string = ''
+  activeTab: string = ''
   dataGrid: any[] = []
+  listSubs: any[] = []
   subGrids: any = {}
   dataLookups: any = {}
   dataClean: any = {}
+  listFields: dataForm[] = []
   
   filterScreen: boolean = true
   dataScreen: boolean = false
   dataUpdate: boolean = false
   dataConsult: boolean = false
+  subScreen: boolean = false
 
   dataSearch: any = {
     DATAKEY: '',
@@ -53,7 +57,18 @@ export class Engine implements OnInit {
   ngOnInit(): void {
     this.dataClean = { ...this.dataRow }
 
-    for(let i of this.dataForm){
+    this.listFields = [
+      ...this.dataForm.master,
+      ...this.dataForm.tabs.flatMap(i => i.abaForm)
+    ]
+
+    this.activeTab = this.dataForm.tabs[0]?.id
+
+    for(let i of this.listFields){
+      if(i.type == 'subComponent'){
+        this.listSubs.push({ id: i.field, subScreen: false })
+      }
+
       if(i.type == 'lookup'){
         this.lookup(i.lookup)
       }
@@ -67,7 +82,7 @@ export class Engine implements OnInit {
     this.dataRow = { ...this.dataClean }
 
 
-    for(let i of this.dataForm){
+    for(let i of this.listFields){
       if(i.autocomplete?.type == 'codigo'){
         let data = await this.service.codigo(this.table, i.field)
         this.dataRow = { ...this.dataRow, ...data }
@@ -115,6 +130,8 @@ export class Engine implements OnInit {
       this.subGrids[i] = []
     })
 
+    this.listSubs.forEach(i => i.subScreen = false)
+    this.subScreen = false
     this.dataScreen = false
     this.dataConsult = false
     this.dataUpdate = false
@@ -190,17 +207,16 @@ export class Engine implements OnInit {
 
   async lookup(lookup: any){
     let data = await this.service.lookup(lookup)
-    this.dataLookups[lookup.table] = data
+    this.dataLookups[lookup] = data
     this.cdr.detectChanges()
   }
 
   gridLookup(ID: number, table: string){
-    return this.dataLookups[table].find((i: any) => i.ID === ID).DS
+    return this.dataLookups[table].find((i: any) => i.ID == ID).DS
   }
 
   async autocomplete(load: any){
-    let data = await this.service.autocomplete(load)
-    this.dataRow = { ...this.dataRow, ...data }
+    this.dataRow = { ...this.dataRow, ...load }
     this.cdr.detectChanges()
   }
 
@@ -219,7 +235,7 @@ export class Engine implements OnInit {
   }
 
   calcInput(){
-    for(let i of this.dataForm){
+    for(let i of this.listFields){
       if(i.expression){
         if(i.expression.includes('SUM(')){
           let match = i.expression.match(/SUM\((.*?)\)/) || []
@@ -240,5 +256,15 @@ export class Engine implements OnInit {
 
   btnFiltrar(){
     this.modalFiltro.nativeElement.showModal()
+  }
+
+  screenSubs(event: {id: string, subScreen: boolean}){
+    let item = this.listSubs.find(i => i.id == event.id)
+
+    if(item){
+      item.subScreen = event.subScreen
+    }
+
+    this.subScreen = this.listSubs ? this.listSubs.some(comp => comp.subScreen) : false
   }
 }

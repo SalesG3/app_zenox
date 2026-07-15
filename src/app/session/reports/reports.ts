@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../../../environments/environment.development';
-import { ReportsService } from '../../services/reports-service';
 import { Formgroup } from '../formgroup/formgroup';
 import { EngineService } from '../../services/engine-service';
 
@@ -16,26 +14,23 @@ export class Reports {
 
   @Input() dataReports: any = [ ]
   @Input() title: string = ''
-  @Input() type: string = ''
 
   ID_RELATORIO: number = 0
 
-  dataRow: any = { }
   dataLookups: any = { }
-  selectReport: any = null
 
-  constructor(private cdr: ChangeDetectorRef, private service: ReportsService, private service2: EngineService){ }
+  constructor(private cdr: ChangeDetectorRef, private service: EngineService){ }
 
   async lookup(lookup: any){
-    let data = await this.service2.lookup(lookup)
-    this.dataLookups[lookup.table] = data
+    let data = await this.service.filters(lookup)
+    this.dataLookups[lookup] = data
     this.cdr.detectChanges()
   }
 
   async emitReport(){
     let report = this.dataReports.find((r: any) => r.ID == this.ID_RELATORIO)
 
-    let data = await this.service.reportEmit(this.type, this.dataRow)
+    let data = await this.service.reportEmit(report)
 
     const byteCharacters = atob(data.file.split(',')[1]);
 

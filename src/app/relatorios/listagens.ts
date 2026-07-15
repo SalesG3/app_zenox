@@ -16,28 +16,43 @@ import { Reports } from '../session/reports/reports';
 export class Listagens {
   dataReports: any[] = [
     {
-      ID: "1", DS: "Listagem - Credores / Fornecedores", table: "PESSOAS",
+      ID: "1", DS: "Listagem - Credores / Fornecedores", report: "listagem_pessoas",
       filters: [
-        { field: "SN_ATIVO", label: "Ativo", value: "S" }
+         {
+          label: "Tipo",
+          type: "select",
+          field: "TP_PESSOA",
+          width: 12,
+          options: [{ID: "", DS: ""}, {ID: "F", DS: "Física"}, {ID: "J", DS: "Jurídica"}]
+        },
+        {
+          label: "Ativo",
+          type: "select",
+          field: "SN_ATIVO",
+          width: 12,
+          options: [{ID: "1", DS: "Sim"}, {ID: "0", DS: "Não"}]
+        },
       ],
-      columns: [
-        { field: "CD_PESSOA", label: "Código", width: 4},
-        { field: "NM_PESSOA", label: "Nome/Razão Social", width: 10},
-        { field: "CADASTRO", label: "CPF/CNPJ", width: 6},
-        { field: "SN_ATIVO", label: "Ativo", width: 4}
-      ],
+      dataRow: {
+        TP_PESSOA: '',
+        SN_ATIVO: 1,
+
+      }
     },
     {
-      ID: "2", DS: "Listagem - Categorias", table: "CATEGORIAS",
+      ID: "2", DS: "Listagem - Categorias", report: "listagem_categorias",
       filters: [
-        { field: "SN_ATIVO", label: "Ativo", value: "S" }
+        {
+          label: "Ativo",
+          type: "select",
+          field: "SN_ATIVO",
+          width: 12,
+          options: [{ID: "1", DS: "Sim"}, {ID: "0", DS: "Não"}]
+        }
       ],
-      columns: [
-        { field: "CD_CATEGORIA", label: "Código", width: 4},
-        { field: "NM_CATEGORIA", label: "Categoria", width: 12},
-        { field: "TP_CATEGORIA", label: "Tipo", width: 4},
-        { field: "SN_ATIVO", label: "Ativo", width: 4}
-      ],
+      dataRow: {
+        SN_ATIVO: 1
+      }
     }
   ]
 }

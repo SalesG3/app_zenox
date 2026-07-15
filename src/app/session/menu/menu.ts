@@ -1,11 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Session } from '../../services/session';
-import { ReportsService } from '../../services/reports-service';
 import { menuEngine } from './menu.config';
 import { CommonModule } from '@angular/common';
 import { Dashboard } from '../dashboard/dashboard';
-import { Categorias } from '../../cadastro/categorias';
 
 @Component({
   selector: 'app-menu',

@@ -10,7 +10,7 @@
             <i class="fa-solid fa-arrow-trend-up kpi-icon kpi-green"></i>
             <div class="kpi-data">
                 <span class="kpi-title">A Receber</span>
-                <span class="kpi-value">R$ {{ dataGrid[0].RECEITA | number:'1.2-2':'pt-BR' }}</span>
+                <span class="kpi-value">R$ {{ (dataGrid[0]?.RECEITA || 0 ) | number:'1.2-2':'pt-BR' }}</span>
             </div>
         </div>
 
@@ -18,7 +18,7 @@
             <i class="fa-solid fa-arrow-trend-down kpi-icon kpi-red"></i>
             <div class="kpi-data">
                 <span class="kpi-title">A Pagar</span>
-                <span class="kpi-value">R$ {{ dataGrid[0].DESPESA | number:'1.2-2':'pt-BR' }}</span>
+                <span class="kpi-value">R$ {{ (dataGrid[0]?.DESPESA || 0 ) | number:'1.2-2':'pt-BR' }}</span>
             </div>
         </div>
 
@@ -26,8 +26,8 @@
             <i class="fa-solid fa-scale-balanced kpi-icon kpi-blue"></i>
             <div class="kpi-data">
                 <span class="kpi-title">Saldo</span>
-                <span class="kpi-value" [ngClass]="{'text-red': (dataGrid[0].RECEITA - dataGrid[0].DESPESA) < 0}">
-                    R$ {{ (dataGrid[0].RECEITA - dataGrid[0].DESPESA) | number:'1.2-2':'pt-BR' }}
+                <span class="kpi-value" [ngClass]="{'text-red': ((dataGrid[0]?.RECEITA || 0 ) - (dataGrid[0]?.DESPESA || 0 )) < 0}">
+                    R$ {{ ((dataGrid[0]?.RECEITA || 0 ) - (dataGrid[0]?.DESPESA || 0 )) | number:'1.2-2':'pt-BR' }}
                 </span>
             </div>
         </div>

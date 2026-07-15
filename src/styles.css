@@ -3,4 +3,41 @@ body{
     background-image: url("../public/3274408.jpg");
     background-size: cover;
     backdrop-filter: blur(2px);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.ng-dropdown-panel {
+    border: 1px solid #ddd;
+    margin: .25rem 0rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+.ng-option {
+    padding: .25rem .25rem;
+    font-size: .85rem;
+
+    &.ng-option-marked {
+        background-color: gray;
+        color: white;
+    }
+}
+
+.ng-select .ng-select-container {
+    display: inline-block;
+    border-bottom: 1px solid #2c3e50;
+    font-size: .85rem;
+    height: 19px;
+}
+
+.ng-select:disabled .ng-select-container:disabled {
+    background-color: transparent;
+    color: #2c3e50;
+}
+
+
+.ng-select.ng-select-focused .ng-select-container {
+    border-bottom: 1px solid #116191;
+    box-shadow: 0px 1px 0px 0px #116191;
 }

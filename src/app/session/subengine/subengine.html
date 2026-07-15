@@ -3,7 +3,7 @@
         <table class="dataGrid">
             <thead>
                 <tr>
-                    <th *ngFor="let i of subColumns" [style.width.rem]="i.width">
+                    <th *ngFor="let i of subColumns" [style.width.%]="i.width">
                         {{i.name}}
                     </th>
                 </tr>
@@ -75,16 +75,17 @@
     </div>
 </div>
 
-<div class="subContainer" *ngIf="subScreen">
+<form class="subContainer" *ngIf="subScreen"  #ngSubForm="ngForm">
     <div class="subForm">
         <div
         class="input-group"
         *ngFor="let i of subForm"
         [ngSwitch]="i.type"
-        [style.width.rem]="i.width"
+        [style.width.%]="i.width"
         >
             <label for="i.field">
                 {{ i.label }}
+                <span *ngIf="i.required" [style.color]="'red'">*</span>
             </label>
 
             <app-formgroup
@@ -106,7 +107,7 @@
             <button
             class="btn-crud"
             (click)="subUpdate ? btnAlteracao() : btnSalvar()"
-            [disabled]="subConsult"
+            [disabled]="subConsult || ngSubForm?.invalid"
             >
                 {{ subUpdate ? "Alterar" : "Salvar" }}
             </button>
@@ -119,4 +120,4 @@
             </button>
         </div>
     </div>
-</div>
+</form>

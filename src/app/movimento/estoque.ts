@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { columnsGrid, dataForm, dataRow, dataSub, subComponent } from '../session/engine/interfaces';
+import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../session/engine/interfaces';
 import { Engine } from '../session/engine/engine';
 
 @Component({
@@ -27,15 +27,15 @@ export class Estoque {
   
   dataRow: dataRow = {
     ID_ESTOQUE: 0,
+    CD_ESTOQUE: '',
     DT_ESTOQUE: '',
     TP_ESTOQUE: '',
     DS_ESTOQUE: '',
+    ID_CONTRATO: null,
     ID_PESSOA: '',
     DOC_ESTOQUE: '',
     CD_STATUS: '',
     VL_ESTOQUE: '',
-    CD_METODO: '',
-    ID_CONTA: '',
     HISTORICO: ''
   }
 
@@ -85,116 +85,117 @@ export class Estoque {
     }
   ]
 
-  dataForm: dataForm[] = [
-    {
-      label: "Data",
-      type: "date",
-      field: "DT_ESTOQUE",
-      width: 8,
-      required: true
-    },
-    {
-      label: "Tipo",
-      type: "select",
-      field: "TP_ESTOQUE",
-      width: 8,
-      required: true,
-      options: [{ID: "E", DS: "Entrada"}, {ID: "S", DS: "Saída"}]
-    },
-    {
-      label: "Descrição",
-      type: "text",
-      field: "DS_ESTOQUE",
-      width: 25,
-      required: true
-    },
-    {
-      label: "Categoria",
-      type: "lookup",
-      field: "ID_CATEGORIA_DETALHE",
-      width: 12,
-      lookup: { 
-        table: "CATEGORIA_DETALHE",
-        ID: "ID_CATEGORIA_DETALHE",
-        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
-        joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'E'",
-        order: ["CD_CATEGORIA", "CD_DETALHE"]
+  dataForm: engineConfig = {
+    master: [
+      {
+        label: "Código",
+        type: "number",
+        field: "CD_ESTOQUE",
+        width: 8,
+        autocomplete: { type: "codigo" },
+        required: true
+      },
+      {
+        label: "Data",
+        type: "date",
+        field: "DT_ESTOQUE",
+        width: 12,
+        required: true,
+        autocomplete: { type: "today" }
+      },
+      {
+        label: "Tipo",
+        type: "select",
+        field: "TP_ESTOQUE",
+        width: 12,
+        required: true,
+        options: [{ID: "E", DS: "Entrada"}, {ID: "S", DS: "Saída"}]
+      },
+      {
+        label: "Descrição",
+        type: "text",
+        field: "DS_ESTOQUE",
+        width: 48,
+        required: true
+      },
+      {
+        label: "Categoria",
+        type: "lookup",
+        field: "ID_CATEGORIA_DETALHE",
+        width: 20,
+        lookup: "CATEGORIAS_ESTOQUE"
+      },
+      {
+        label: "Status",
+        type: "select",
+        field: "CD_STATUS",
+        width: 10,
+        options: [{ID: "A", DS: "Aberto"}, {ID: "E", DS: "Efetivado"}, {ID: "C", DS: "Cancelado"}],
+        required: true
+      },
+      {
+        label: "Contrato",
+        type: "lookup",
+        field: "ID_CONTRATO",
+        width: 22,
+        lookup: "CONTRATOS",
+        autocomplete: {type: 'change', fill: ["ID_PESSOA"]}
+      },
+      {
+        label: "Fornecedor",
+        type: "lookup",
+        field: "ID_PESSOA",
+        width: 40,
+        lookup: "PESSOAS"
+      },
+      {
+        label: "Documento",
+        type: "text",
+        field: "DOC_ESTOQUE",
+        width: 16
+      },
+      {
+        label: "Valor Total",
+        type: "currency",
+        field: "VL_ESTOQUE",
+        width: 12,
+        required: true,
+        readonly: true,
+        expression: "SUM(ESTOQUE_ITENS.VL_TOTAL)"
+      },
+      {
+        label: "Itens da Movimentação",
+        type: "subComponent",
+        field: "ESTOQUE_ITENS",
+        width: 50,
+        height: 15 
+      },
+      {
+        label: "Histórico",
+        type: "textarea",
+        field: "HISTORICO",
+        width: 50,
+        height: 16.1
       }
-    },
-    {
-      label: "Status",
-      type: "select",
-      field: "CD_STATUS",
-      width: 8,
-      options: [{ID: "A", DS: "Aberto"}, {ID: "E", DS: "Efetivado"}, {ID: "C", DS: "Cancelado"}],
-      required: true
-    },
-    {
-      label: "Fornecedor",
-      type: "lookup",
-      field: "ID_PESSOA",
-      width: 24,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]}
-    },
-    {
-      label: "Documento",
-      type: "text",
-      field: "DOC_ESTOQUE",
-      width: 12
-    },
-    {
-      label: "Método",
-      type: "select",
-      field: "CD_METODO",
-      width: 8,
-      options: [
-        {ID: "C", DS: "Crédito"}, {ID: "D", DS: "Débito"}, {ID: "G", DS: "Pagamento"},
-        {ID: "P", DS: "Pix"}, {ID: "T", DS: "Transferência"}
-      ]
-    },
-    {
-      label: "Conta Bancária",
-      type: "lookup",
-      field: "ID_CONTA",
-      width: 12,
-      lookup: { "table": "CONTAS", ID: "ID_CONTA", DS: ["CD_CONTA", "DG_CONTA"], order: ["CD_CONTA"]}
-    },
-    {
-      label: "Valor Total",
-      type: "number",
-      field: "VL_ESTOQUE",
-      width: 8,
-      required: true,
-      readonly: true,
-      expression: "SUM(ESTOQUE_ITENS.VL_TOTAL)"
-    },
-    {
-      label: "Itens da Movimentação",
-      type: "subComponent",
-      field: "ESTOQUE_ITENS",
-      width: 35,
-      height: 15 
-    },
-    {
-      label: "Histórico",
-      type: "textarea",
-      field: "HISTORICO",
-      width: 35,
-      height: 15
-    }
-  ]
+    ],
+    tabs: []
+  }
 
   subComponent: subComponent = {
     "ESTOQUE_ITENS": {
       subKey: "ID_ESTOQUE_ITEM",
       subColumns: [
         {
+          name: "Código",
+          field: "CD_ITENS",
+          width: 12
+        },
+        {
           name: "Produto/Serviço",
           field: "ID_PRODUTO",
           width: 24,
           type: "lookup",
-          table: "PRODUTOS",
+          table: "PRODUTOS_ESTOQUE",
         },
         {
           name: "Qtd",
@@ -216,50 +217,57 @@ export class Estoque {
       ],
       subForm: [
         {
+          label: "Código",
+          type: "number",
+          field: "CD_ITENS",
+          width: 12,
+          autocomplete: { type: "codigo" },
+          required: true
+        },
+        {
           label: "Produto / Serviço",
           type: "lookup",
           field: "ID_PRODUTO",
-          width: 24,
-          lookup: {
-            "table": "PRODUTOS",
-            ID: "ID_PRODUTO",
-            DS: ["CD_PRODUTO", "NM_PRODUTO"],
-            where: "1 = 1",
-            order: ["CD_PRODUTO"]
-          },
-          autocomplete: { type: "change", fill: ["UN_MEDIDA"]}
-        },
-        {
-          label: "Descrição Complementar",
-          type: "text",
-          field: "DS_ITENS",
-          width: 16
+          width: 50,
+          lookup: "PRODUTOS_ESTOQUE",
+          autocomplete: { type: "change", fill: ["UN_MEDIDA", "VL_UNITARIO"] },
+          required: true
         },
         {
           label: "UN",
           type: "text",
           field: "UN_MEDIDA",
-          width: 4,
-          readonly: true
+          width: 14,
+          readonly: true,
+          required: true
         },
         {
-          label: "Quantidade",
+          label: "Qtde",
           type: "number",
           field: "QT_ITENS",
-          width: 8
+          width: 14,
+          required: true
         },
         {
-          label: "Valor Unitário",
-          type: "number",
+          label: "Obersavação",
+          type: "text",
+          field: "DS_ITENS",
+          width: 63.5
+        },
+        {
+          label: "Vl Unit",
+          type: "currency",
           field: "VL_UNITARIO",
-          width: 8
+          width: 14,
+          required: true
         },
         {
-          label: "Valor Total",
+          label: "Vl Total",
           type: "number",
           field: "VL_TOTAL",
-          width: 8,
+          width: 14,
           readonly: true,
+          required: true,
           expression: "dataSub.QT_ITENS * dataSub.VL_UNITARIO"
         }
       ]
@@ -294,14 +302,7 @@ export class Estoque {
       type: "lookup",
       field: "ID_CATEGORIA_DETALHE",
       width: 12,
-      lookup: { 
-        table: "CATEGORIA_DETALHE",
-        ID: "ID_CATEGORIA_DETALHE",
-        DS: ["CD_CATEGORIA,'.',CD_DETALHE","NM_DETALHE"],
-        joins: ["CATEGORIAS"],
-        where: "TP_CATEGORIA = 'E'",
-        order: ["CD_CATEGORIA", "CD_DETALHE"]
-      }
+      lookup: "categorias"
     },
     {
       label: "Status",
@@ -316,7 +317,7 @@ export class Estoque {
       type: "lookup",
       field: "ID_PESSOA",
       width: 24,
-      lookup: { "table": "PESSOAS", ID: "ID_PESSOA", DS: ["CD_PESSOA", "NM_PESSOA", "CADASTRO"], order: ["CD_PESSOA"]}
+      lookup: "pessoas"
     },
     {
       label: "Documento",

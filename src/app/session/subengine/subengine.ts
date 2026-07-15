@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { columnsGrid, dataForm } from '../engine/interfaces';
 import { EngineService } from '../../services/engine-service';
 import { Formgroup } from '../formgroup/formgroup';
@@ -23,6 +23,7 @@ export class Subengine implements OnInit{
 
   @Input() subGrid: any[] = []
   @Output() subGridChange = new EventEmitter<any[]>()
+  @Output() subScreenChange = new EventEmitter()
 
   subLookups : any = { }
 
@@ -61,6 +62,7 @@ export class Subengine implements OnInit{
       }
     }
     this.subScreen = true
+    this.subScreenChange.emit({id: this.table, subScreen: this.subScreen})
     this.cdr.detectChanges()
   }
 
@@ -68,6 +70,7 @@ export class Subengine implements OnInit{
     this.dataSub = { ...this.subClean, ...{ ID: this.dataSub.ID }}
     this.subScreen = false
     this.subUpdate = false
+    this.subScreenChange.emit({id: this.table, subScreen: this.subScreen})
     this.cdr.detectChanges()
   }
 
@@ -75,12 +78,14 @@ export class Subengine implements OnInit{
     this.dataSub = this.subGrid.find(i => i.ID == this.dataSub.ID)
     this.subScreen = true
     this.subUpdate = true
+    this.subScreenChange.emit({id: this.table, subScreen: this.subScreen})
     this.cdr.detectChanges()
   }
 
   btnConsultar(){
     this.dataSub = this.subGrid.find(i => i.ID == this.dataSub.ID)
     this.subScreen = true
+    this.subScreenChange.emit({id: this.table, subScreen: this.subScreen})
     this.cdr.detectChanges()
   }
 
@@ -116,7 +121,7 @@ export class Subengine implements OnInit{
 
   async lookup(lookup: any){
     let data = await this.service.lookup(lookup)
-    this.subLookups[lookup.table] = data
+    this.subLookups[lookup] = data
     this.cdr.detectChanges()
   }
 
@@ -144,10 +149,7 @@ export class Subengine implements OnInit{
   }
 
   async autocomplete(load: any){
-
-    let teste = 'dataCalc' 
-    let data = await this.service.autocomplete(load)
-    this.dataSub = { ...this.dataSub, ...data }
+    this.dataSub = { ...this.dataSub, ...load }
     this.cdr.detectChanges()
   }
 
