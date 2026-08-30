@@ -1,13 +1,9 @@
-import { Categorias } from "../../cadastro/categorias";
-import { Contas } from "../../cadastro/contas";
-import { Contratos } from "../../cadastro/contratos";
-import { Pessoas } from "../../cadastro/pessoas";
-import { Produtos } from "../../cadastro/produtos";
-import { Estoque } from "../../movimento/estoque";
-import { Financeiro } from "../../movimento/financeiro";
-import { Movimentacao } from "../../movimento/movimentacao";
-import { Documentos } from "../../relatorios/documentos";
-import { Listagens } from "../../relatorios/listagens";
+import { Pessoas } from "../../cadastro/pessoas/pessoas";
+import { Produtos } from "../../cadastro/produtos/produtos";
+import { Estoque } from "../../movimento/estoque/estoque";
+import { Financeiro } from "../../movimento/financeiro/financeiro";
+import { Venda } from "../../movimento/venda/venda";
+import { EstoqueReport } from "../../relatorios/estoque/estoque";
 import { Entidade } from "../../seguranca/entidade/entidade";
 
 
@@ -18,11 +14,8 @@ export const menuEngine: menuEngine[] = [
         open: false,
         route: "cadastro",
         itens: [
-            { label: "Categorias", route: "categorias", icon: "fa-solid fa-tags", component: Categorias },
-            { label: "Contas Bancárias", route: "contas", icon: "fa-solid fa-money-check-dollar", component: Contas },
-            { label: "Contratos & Aditivos", route: "contratos", icon: "fa-solid fa-briefcase", component: Contratos },
-            { label: "Credores & Fornecedores", route: "pessoas", icon: "fa-solid fa-address-book", component: Pessoas },
-            { label: "Produtos & Serviços", route: "produtos", icon: "fa-solid fa-boxes-packing", component: Produtos },
+           { label: "Pessoas", route: "pessoas", icon: "fa-solid fa-address-book", component: Pessoas},
+           { label: "Produtos", route: "produtos", icon: "fa-solid fa-boxes-packing", component: Produtos},
         ],
     },
     {
@@ -31,9 +24,9 @@ export const menuEngine: menuEngine[] = [
         open: false,
         route: "movimentacao",
         itens: [
-            { label: "Financeiro", route: "financeiro", icon: "fa-solid fa-calculator", component: Financeiro },
-            { label: "Estoque", route: "estoque", icon: "fa-solid fa-boxes-stacked", component: Estoque },
-            { label: "Ordem de Serviço / Vendas", route: "movimentacao", icon: "fa-solid fa-gears", component: Movimentacao }
+            { label: "Estoque", route: "estoque", icon: "fa-solid fa-boxes-packing", component: Estoque},
+            { label: "Financeiro", route: "financeiro", icon: "fa-solid fa-calculator", component: Financeiro},
+            { label: "Venda", route: "venda", icon: "fa-solid fa-gears", component: Venda}
         ]
     },
     {
@@ -42,8 +35,7 @@ export const menuEngine: menuEngine[] = [
         open: false,
         route: "relatorios",
         itens: [
-            { label: "Listagens", route: 'listagens', icon: "fa-solid fa-file-lines", component: Listagens },
-            { label: "Documentos / Recibos", route: 'documentos', icon: "fa-solid fa-file-lines", component: Documentos}
+            //{ label: "Relatórios - Estoque", route: "estoque", icon: "fa-solid fa-file-lines", component: EstoqueReport }
         ]
     },
     {
