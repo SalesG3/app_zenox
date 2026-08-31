@@ -48,8 +48,9 @@ export class Produtos {
     },
     {
       name: "Ativo",
-      field: "NM_PRODUTO",
-      width: 10
+      field: "SN_ATIVO",
+      width: 10,
+      type: "sn_ativo"
     }
   ]
 

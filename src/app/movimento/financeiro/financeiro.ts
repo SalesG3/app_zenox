@@ -127,6 +127,13 @@ export class Financeiro {
         required: true
       },
       {
+        label: "Valor",
+        type: "currency",
+        field: "VL_FINANCEIRO",
+        width: 12,
+        required: true
+      },
+      {
         label: "Histórico",
         type: "textarea",
         field: "HISTORICO",

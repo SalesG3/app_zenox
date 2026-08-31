@@ -4,6 +4,7 @@ import { Estoque } from "../../movimento/estoque/estoque";
 import { Financeiro } from "../../movimento/financeiro/financeiro";
 import { Venda } from "../../movimento/venda/venda";
 import { EstoqueReport } from "../../relatorios/estoque/estoque";
+import { FinanceiroReport } from "../../relatorios/financeiro/financeiro";
 import { Entidade } from "../../seguranca/entidade/entidade";
 
 
@@ -35,7 +36,8 @@ export const menuEngine: menuEngine[] = [
         open: false,
         route: "relatorios",
         itens: [
-            //{ label: "Relatórios - Estoque", route: "estoque", icon: "fa-solid fa-file-lines", component: EstoqueReport }
+            { label: "Relatórios - Estoque", route: "reportestoque", icon: "fa-solid fa-file-lines", component: EstoqueReport },
+            { label: "Relatórios - Financeiro", route: "reportfinanceiro", icon: "fa-solid fa-file-lines", component: FinanceiroReport }
         ]
     },
     {

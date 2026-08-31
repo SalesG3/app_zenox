@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Reports } from '../../session/reports/reports';
 
 @Component({
-  selector: 'app-estoque',
+  selector: 'app-financeiro',
   imports: [Reports],
   template: `
   <app-reports
@@ -12,24 +12,23 @@ import { Reports } from '../../session/reports/reports';
   `,
   styles: ``,
 })
-export class EstoqueReport {
-
+export class FinanceiroReport {
   dataReports: any[] = [
     {
-      ID: "1", DS: "Saldo dos Produtos", report: "relatorio_saldo_estoque",
+      ID: "1", DS: "Contas a Pagar - Por Credor", report: "relatorio_contas_pagar",
       filters: [
-        {
-          label: "Ativo",
-          type: "select",
-          field: "SN_ATIVO",
-          width: 12,
-          options: [{ID: "1", DS: "Sim"}, {ID: "0", DS: "Não"}]
-        }
       ],
       dataRow: {
-        SN_ATIVO: 1
+        
+      }
+    },
+    {
+      ID: "2", DS: "Contas a Receber - Por Devedor", report: "relatorio_contas_receber",
+      filters: [
+      ],
+      dataRow: {
+        
       }
     }
   ]
-  
 }
