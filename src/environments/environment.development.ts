@@ -1,3 +1,4 @@
 export const environment = {
-    api: 'https://apizenox.railway.internal:8080/'
+    api: 'https://apizenox-production.up.railway.app/'
+    //api: 'http://localhost:8081/'
 };
