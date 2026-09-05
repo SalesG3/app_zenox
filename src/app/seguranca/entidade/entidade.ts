@@ -111,6 +111,13 @@ export class Entidade implements OnInit{
       type: "text",
       field: "DS_COMPLEMENTO",
       width: 15
+    },
+    {
+      label: "Cliente Padrão",
+      type: "lookup",
+      field: "ID_CLIENTE_PADRAO",
+      width: 15,
+      lookup: "PESSOAS"
     }
   ]
 
@@ -158,7 +165,7 @@ export class Entidade implements OnInit{
 
   async lookup(lookup: any){
     let data = await this.service.lookup(lookup)
-    this.dataLookups[lookup.table] = data
+    this.dataLookups[lookup] = data
     this.cdr.detectChanges()
   }
 

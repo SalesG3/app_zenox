@@ -106,6 +106,15 @@
         <div class="comp-tools">
             <button
             class="btn-crud"
+            (click)="btnSalvarIncluir()"
+            [hidden]="subUpdate"
+            [disabled]="subConsult || ngSubForm?.invalid"
+            >
+                {{ "Salvar +" }}
+            </button>
+
+            <button
+            class="btn-crud"
             (click)="subUpdate ? btnAlteracao() : btnSalvar()"
             [disabled]="subConsult || ngSubForm?.invalid"
             >

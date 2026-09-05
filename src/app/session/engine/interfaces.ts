@@ -29,7 +29,7 @@ export interface dataForm{
 
     options?: {ID: string, DS: string}[],
     lookup?: string,
-    autocomplete?: {type: "codigo"|"change"|"today", fill?: string[]},
+    autocomplete?: {type: "codigo"|"change"|"today"|"lookup", fill?: string[], lookup?: string},
     mask?: string
 }
 

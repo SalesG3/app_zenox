@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Engine } from '../../session/engine/engine';
 import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } from '../../session/engine/interfaces';
 
@@ -21,13 +21,13 @@ import { columnsGrid, dataForm, dataRow, dataSub, engineConfig, subComponent } f
     ></app-engine>`,
   styles: ``,
 })
-export class Venda {
-  
+export class Venda{
+
   dataRow: dataRow = {
     ID_VENDA: 0,
     CD_VENDA: '',
     DT_VENDA: '',
-    DS_VENDA: '',
+    DS_VENDA: 'Venda Comum',
     ID_PESSOA: '',
     NU_DOCUMENTO: '',
     VL_DESCONTO: '',
@@ -112,7 +112,8 @@ export class Venda {
         field: "ID_PESSOA",
         width: 40,
         lookup: "PESSOAS",
-        required: true
+        required: true,
+        autocomplete: { type: "lookup", lookup: "CLIENTE_PADRAO"}
       },
       {
         label: "Valor Desconto",
@@ -176,14 +177,6 @@ export class Venda {
           autocomplete: { type: "codigo" }
         },
         {
-          label: "Produto",
-          type: "lookup",
-          field: "ID_PRODUTO",
-          width: 40,
-          lookup: "PRODUTOS",
-          required: true
-        },
-        {
           label: "Qtde",
           type: "number",
           field: "QT_VENDA_PRODUTO",
@@ -191,10 +184,20 @@ export class Venda {
           required: true
         },
         {
+          label: "Produto",
+          type: "lookup",
+          field: "ID_PRODUTO",
+          width: 40,
+          lookup: "PRODUTOS",
+          required: true,
+          autocomplete: { type: "change", fill: ["VL_VENDA_PRODUTO"]}
+        },
+        {
           label: "Valor Un.",
           type: "currency",
           field: "VL_VENDA_PRODUTO",
-          width: 18
+          width: 18,
+          required: true
         }
       ]
     }

@@ -119,6 +119,11 @@ export class Subengine implements OnInit{
     this.btnCancelar()
   }
 
+  btnSalvarIncluir(){
+    this.btnSalvar()
+    this.btnIncluir()
+  }
+
   async lookup(lookup: any){
     let data = await this.service.lookup(lookup)
     this.subLookups[lookup] = data

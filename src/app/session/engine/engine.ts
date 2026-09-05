@@ -91,6 +91,11 @@ export class Engine implements OnInit {
       if(i.autocomplete?.type == 'today'){
         this.dataRow[i.field] = new Date().toLocaleDateString('en-CA');
       }
+
+      if(i.autocomplete?.type == 'lookup'){
+        let data = await this.service.lookup(i.autocomplete?.lookup);
+        this.dataRow[i.field] = data[0][i.field]
+      }
     }
 
     Object.keys(this.subGrids).forEach(i => {

@@ -26,6 +26,7 @@ export class Produtos {
     NM_PRODUTO: '',
     CD_BARRAS: '',
     UN_MEDIDA: '',
+    VL_PRODUTO: '',
     HISTORICO: '',
     SN_ATIVO: true
   }
@@ -68,21 +69,28 @@ export class Produtos {
         label: "Nome",
         type: "text",
         field: "NM_PRODUTO",
-        width: 50,
+        width: 44,
         required: true
       },
       {
         label: "Un. Medida",
         type: "text",
         field: "UN_MEDIDA",
-        width: 15,
+        width: 12,
         required: true
       },
       {
         label: "Cód. Barras",
         type: "text",
         field: "CD_BARRAS",
-        width: 15
+        width: 12
+      },
+      {
+        label: "Preço",
+        type: "currency",
+        field: "VL_PRODUTO",
+        width: 10,
+        required: true
       },
       {
         label: "Ativo",
