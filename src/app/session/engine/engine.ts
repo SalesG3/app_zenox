@@ -77,7 +77,7 @@ export class Engine implements OnInit {
     this.dataSearch.DATAKEY = this.dataKey
     this.dataSearch.COLUMNS = this.columnsGrid.map(i => i.field)
 
-    if(this.service.startFunction = 'incluir'){
+    if(this.service.startFunction == 'incluir'){
       this.btnIncluir()
       this.service.startFunction = ''
     }
