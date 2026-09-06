@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { EngineService } from '../../services/engine-service';
 import { columnsGrid, dataForm, engineConfig} from './interfaces'
@@ -76,6 +76,11 @@ export class Engine implements OnInit {
 
     this.dataSearch.DATAKEY = this.dataKey
     this.dataSearch.COLUMNS = this.columnsGrid.map(i => i.field)
+
+    if(this.service.startFunction = 'incluir'){
+      this.btnIncluir()
+      this.service.startFunction = ''
+    }
   }
 
   async btnIncluir(){

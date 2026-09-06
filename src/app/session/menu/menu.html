@@ -12,7 +12,7 @@
         </div>
 
         <div class="menu-routes">
-            <a class="folder-header" (click)="openComponent(moduleWorkspace[0])" skipLocationChange>
+            <a class="folder-header" (click)="workspace.openComponent(workspace.moduleWorkspace[0])" skipLocationChange>
                 <i class="fa-solid fa-chart-column folder-icon"></i>
                 <strong class="folder-label">Dashboard</strong>
             </a>
@@ -26,7 +26,7 @@
 
                 <div class="folder-itens" *ngIf="f.open">
                     <a *ngFor="let i of f.itens"
-                    (click)="openComponent(i)"
+                    (click)="workspace.openComponent(i)"
                     class="folder-item"
                     routerLinkActive="active-link"
                     skipLocationChange
@@ -58,9 +58,9 @@
 
             <div class="router-workspace">
                 <button
-                *ngFor="let i of engineWorkspace"
-                (click)="activeWorspace = i.route"
-                [class.btn-active]="activeWorspace == i.route"
+                *ngFor="let i of workspace.engineWorkspace"
+                (click)="workspace.activeWorspace = i.route"
+                [class.btn-active]="workspace.activeWorspace == i.route"
                 class="btn-workspace"
                 >
                     <span>
@@ -72,8 +72,8 @@
         </div>
 
         <div class="router-outlet">
-            <ng-container *ngFor="let i of engineWorkspace">
-                <div [hidden]="activeWorspace !== i.route">
+            <ng-container *ngFor="let i of workspace.engineWorkspace">
+                <div [hidden]="workspace.activeWorspace !== i.route">
                     <ng-container *ngComponentOutlet="i.component"></ng-container>
                 </div>
             </ng-container>

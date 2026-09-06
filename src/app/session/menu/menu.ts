@@ -3,6 +3,7 @@ import { Session } from '../../services/session';
 import { menuEngine } from './menu.config';
 import { CommonModule } from '@angular/common';
 import { Dashboard } from '../dashboard/dashboard';
+import { Workspace } from '../../services/workspace';
 
 @Component({
   selector: 'app-menu',
@@ -18,17 +19,7 @@ export class Menu implements OnInit{
   ID_ANO: number = 0
   ID_MES: number = 0
 
-  constructor(private session: Session, private cdr: ChangeDetectorRef){ }
-  
-  activeWorspace: string = 'dashboard'
-  
-  moduleWorkspace: any[] = [
-    {label: 'Dashboard', route: 'dashboard', icon: 'fa-solid fa-tags', component: Dashboard}
-  ]
-
-  engineWorkspace: any[] = [
-    {label: 'Dashboard', route: 'dashboard', icon: 'fa-solid fa-tags', component: Dashboard}
-  ]
+  constructor(private session: Session, public workspace: Workspace, private cdr: ChangeDetectorRef){ }
 
   ngOnInit(): void {
     this.NM_ENTIDADE = this.session.NM_ENTIDADE
@@ -37,11 +28,6 @@ export class Menu implements OnInit{
     this.ID_MES = this.session.ID_MES
     this.VERSION = this.session.VERSION
 
-    menuEngine.forEach(i => {
-      i.itens.forEach(x => {
-        this.moduleWorkspace.push(x)
-      })
-    })
   }
 
   meses: any = {
@@ -67,25 +53,8 @@ export class Menu implements OnInit{
     folder.open = !folder.open
   }
 
-  openComponent(i: any){
-
-    if(this.engineWorkspace.find(x => x.route === i.route)){
-      this.activeWorspace = i.route
-      return
-    }
-
-    this.engineWorkspace.push(i)
-    this.activeWorspace = i.route
-  }
-
   closeComponent(i: any){
-
-    if(this.activeWorspace == i.route){
-      this.activeWorspace = 'dashboard'
-    }
-
-    this.engineWorkspace = this.engineWorkspace.filter(x => x.route !== i.route)
-
+    this.workspace.closeComponent(i)
     this.cdr.detectChanges()
   }
 }

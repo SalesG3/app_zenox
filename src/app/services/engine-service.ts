@@ -7,6 +7,8 @@ import { environment } from '../../environments/environment.development';
 })
 export class EngineService {
 
+  startFunction: string = '0'
+
   constructor(private session: Session){ }
 
   async codigo(table: string, field: string){
