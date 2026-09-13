@@ -2,6 +2,7 @@ import { Pessoas } from "../../cadastro/pessoas/pessoas";
 import { Produtos } from "../../cadastro/produtos/produtos";
 import { Estoque } from "../../movimento/estoque/estoque";
 import { Financeiro } from "../../movimento/financeiro/financeiro";
+import { Pdv } from "../../movimento/pdv/pdv";
 import { Venda } from "../../movimento/venda/venda";
 import { EstoqueReport } from "../../relatorios/estoque/estoque";
 import { FinanceiroReport } from "../../relatorios/financeiro/financeiro";
@@ -27,7 +28,8 @@ export const menuEngine: menuEngine[] = [
         itens: [
             { label: "Estoque", route: "estoque", icon: "fa-solid fa-boxes-packing", component: Estoque},
             { label: "Financeiro", route: "financeiro", icon: "fa-solid fa-calculator", component: Financeiro},
-            { label: "Venda", route: "venda", icon: "fa-solid fa-gears", component: Venda}
+            { label: "Venda", route: "venda", icon: "fa-solid fa-gears", component: Venda},
+            { label: "Ponto de Venda", route: 'pdv', icon: 'fa-solid fa-cash-register', component: Pdv}
         ]
     },
     {

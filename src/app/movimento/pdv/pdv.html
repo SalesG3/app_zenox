@@ -1,0 +1,145 @@
+<section class="component">
+    <div class="comp-header">
+        <span>
+            Ponto de Venda
+        </span>
+    </div>
+
+    <span class="group-title">
+        Nova Venda
+    </span>
+
+    <div class="comp-form">
+        
+
+        <div class="input-group" [style.width.rem]="30">
+            <label for="ID_PESSOA">
+                Cliente
+            </label>
+
+            <ng-select
+            [(ngModel)]="dataRow.ID_PESSOA"
+            [items]="dataLookups['PESSOAS']"
+            bindLabel="DS"
+            bindValue="ID"
+            ></ng-select>
+        </div>
+
+        <div class="input-group" [style.width.rem]="4">
+            <label for="QT_VENDA_PRODUTO">
+                Quant.
+            </label>
+
+            <input type="number"
+            [(ngModel)]="dataRead.QT_ITEM"
+            name="QT_VENDA_PRODUTO"
+            id="QT_VENDA_PRODUTO"
+            >
+        </div>
+
+
+        <div class="input-group" [style.width.rem]="25">            
+            <label for="ID_PRODUTO">
+                Produto
+            </label>
+
+            <ng-select
+            [(ngModel)]="dataRead.ID_PRODUTO"
+            (change)="selectProduto($event)"
+            [items]="dataLookups['PRODUTOS']"
+            bindLabel="DS"
+            bindValue="ID"
+            ></ng-select>
+        </div>
+
+        <span class="group-title">
+            Último Produto
+        </span>
+
+        <div class="input-group" [style.width.rem]="20">
+            <label for="NM_PRODUTO">
+                Descrição
+            </label>
+
+            <input type="text"
+            [(ngModel)]="dataRead.NM_PRODUTO"
+            name="NM_PRODUTO"
+            id="NM_PRODUTO"
+            readonly
+            >
+        </div>
+
+        <div class="input-group" [style.width.rem]="9">
+            <label for="NM_PRODUTO">
+                Valor 
+            </label>
+
+            <input type="text"
+            [(ngModel)]="dataRead.VL_PRODUTO"
+            name="VL_PRODUTO"
+            id="VL_PRODUTO"
+            readonly
+            >
+        </div>
+
+        <span class="group-title">
+            Quant. Itens: {{ qtdeItems | mask: 'separator.2' : { thousandSeparator: '.', decimalMarker: ','} }}
+        </span>
+
+        <span class="group-title">
+            Valor Total: R$ {{ vlrItems.toFixed(2) | mask: 'separator.2' : { thousandSeparator: '.', decimalMarker: ','} }}
+        </span>
+    </div>
+
+    <div class="comp-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Qtde</th>
+                    <th>Vl. Unit</th>
+                    <th>Vl. Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of dataItems">
+                    <td> {{i.CD_ITEM }} </td>
+                    <td> {{i.CD_PRODUTO }} </td>
+                    <td> {{i.NM_PRODUTO }} </td>
+                    <td> {{i.QT_ITEM }} </td>
+                    <td> {{i.VL_PRODUTO | mask: 'separator.2' : { thousandSeparator: '.', decimalMarker: ','} }} </td>
+                    <td> {{i.VL_ITEM.toFixed(2) | mask: 'separator.2' : { thousandSeparator: '.', decimalMarker: ','} }} </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <span class="group-title">
+        Finalizar (F2) | Cancelar (F3) | Remover Item (F4)
+    </span>
+</section>
+
+<dialog #saveConfirm>
+    <div class="modalConfirm">
+        <div class="input-group">
+            <label for="VL_DESCONTO">
+                Desconto
+            </label>
+
+            <input type="number"
+            name="VL_DESCONTO"
+            id="VL_DESCONTO"
+            [(ngModel)]="dataRow.VL_DESCONTO"
+            >
+        </div>
+
+        <button type="button"
+        class="btn-confirm"
+        (click)="salvarVenda()"
+        >
+            Salvar Venda
+        </button>
+    </div>
+</dialog>
