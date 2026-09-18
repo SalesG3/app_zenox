@@ -122,24 +122,100 @@
 </section>
 
 <dialog #saveConfirm>
-    <div class="modalConfirm">
-        <div class="input-group">
-            <label for="VL_DESCONTO">
-                Desconto
-            </label>
+    <div class="dialogConfirm">
+        <div class="modalForm">
 
-            <input type="number"
-            name="VL_DESCONTO"
-            id="VL_DESCONTO"
-            [(ngModel)]="dataRow.VL_DESCONTO"
-            >
+            <div class="input-group">
+                <label for="VL_DESCONTO">
+                    Desconto
+                </label>
+                
+                <input type="number"
+                name="VL_DESCONTO"
+                id="VL_DESCONTO"
+                [(ngModel)]="dataRow.VL_DESCONTO"
+                >
+            </div>
+            
+            <div class="input-group">
+                <label for="ID_METODO_PAG">
+                    Método Pagto.
+                </label>
+                
+                <select
+                name="ID_METODO_PAG"
+                id="ID_METODO_PAG"
+                [(ngModel)]="dataParcela.ID_METODO_PAG"
+                >
+                    <option value="" hidden></option>
+                    <option value="1">1-Dinheiro</option>
+                    <option value="2">2-PIX</option>
+                    <option value="3">3-Débito</option>
+                    <option value="4">4-Crédito</option>
+                    <option value="5">5-Boleto</option>
+                    <option value="6">6-Transferência</option>
+                </select>
+            </div>
+        
+            <div class="input-group">
+                <label for="VL_VENDA_PARCELA">
+                    Valor
+                </label>
+            
+                <input type="number"
+                name="VL_VENDA_PARCELA"
+                id="VL_VENDA_PARCELA"
+                [(ngModel)]="dataParcela.VL_VENDA_PARCELA"
+                >
+            </div>
         </div>
 
-        <button type="button"
-        class="btn-confirm"
-        (click)="salvarVenda()"
-        >
-            Salvar Venda
-        </button>
+        <div class="modalGrid">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metodo</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of dataParcelas">
+                        <td>{{ ID_METODO[i.ID_METODO_PAG] }}</td>
+                        <td>{{i.VL_VENDA_PARCELA.toFixed(2) | mask: 'separator.2' : { thousandSeparator: '.', decimalMarker: ','} }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="info">
+            <span class="">Valor da Venda: {{vlrItems.toFixed(2) | mask: 'separator.2' : { thousandSeparator: '.', decimalMarker: ','} }}</span>
+            <br>
+            <span>Valor Restante: {{(vlrItems - vlrPagto - dataRow.VL_DESCONTO).toFixed(2) | mask: 'separator.2' : {allowNegativeNumbers: true, thousandSeparator: '.', decimalMarker: ','} }}</span>
+        </div>
+        
+        <div class="comp-tools">
+            <button type="button"
+            class="btn-crud"
+            (click)="adicionarPagto()"
+            [disabled]="(vlrItems - vlrPagto - dataRow.VL_DESCONTO == 0)"
+            >
+                Adicionar Pagto (F6)
+            </button>
+
+            <button type="button"
+            class="btn-crud"
+            (click)="salvarVenda()"
+            [disabled]="!(vlrItems - vlrPagto - dataRow.VL_DESCONTO == 0)"
+            >
+                Finalizar Venda (F6)
+            </button>
+
+            <button type="button"
+            class="btn-crud"
+            (click)="cancelarPagto()"
+            >
+                Cancelar Pagto
+            </button>
+        </div>
     </div>
 </dialog>

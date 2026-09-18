@@ -40,6 +40,14 @@ export class Venda{
       ID_PRODUTO: '',
       QT_VENDA_PRODUTO: '',
       VL_VENDA_PRODUTO: ''
+    },
+    "VENDA_PARCELA": {
+      CD_VENDA_PARCELA: '',
+      DT_VENDA_PARCELA: '',
+      DT_PAGAMENTO: '',
+      ID_METODO_PAG: '',
+      VL_VENDA_PARCELA: '',
+      NU_DOCUMENTO: ''
     }
   }
 
@@ -133,6 +141,13 @@ export class Venda{
         field: "VENDA_PRODUTO",
         width: 50,
         height: 15
+      },
+      {
+        label: "Pagamento",
+        type: "subComponent",
+        field: "VENDA_PARCELA",
+        width: 50,
+        height: 15
       }
     ],
     tabs:[]
@@ -198,6 +213,78 @@ export class Venda{
           field: "VL_VENDA_PRODUTO",
           width: 18,
           required: true
+        }
+      ]
+    },
+    "VENDA_PARCELA": {
+      subKey: "ID_VENDA_PARCELA",
+      subColumns: [
+        {
+          name: "Código",
+          width: 14,
+          field: "CD_VENDA_PARCELA"
+        },
+        {
+          name: "Vencimento",
+          width: 14,
+          field: "DT_VENDA_PARCELA",
+          type: "date"
+        },
+        {
+          name: "Pagto",
+          width: 14,
+          field: "DT_PAGAMENTO",
+          type: "date"
+        },
+        {
+          name: "Valor",
+          width: 14,
+          field: "VL_VENDA_PARCELA",
+          type: 'currency'
+        }
+      ],
+      subForm: [
+        {
+          label: "Código",
+          type: "number",
+          width: 20,
+          field: "CD_VENDA_PARCELA",
+          required: true,
+          autocomplete: { type: "codigo"}
+        }, 
+        {
+          label: "Método",
+          type: 'lookup',
+          width: 25,
+          field: "ID_METODO_PAG",
+          lookup: "METODO_PAG"
+        },
+        {
+          label: "Vencimento",
+          type: "date",
+          width: 20,
+          field: "DT_VENDA_PARCELA",
+          required: true,
+          autocomplete: { type: "today" }
+        },
+        {
+          label: "Valor",
+          type: "currency",
+          width: 20,
+          field: "VL_VENDA_PARCELA",
+          required: true
+        },
+        {
+          label: "Pagamento",
+          type: "date",
+          width: 20,
+          field: "DT_PAGAMENTO"
+        },
+        {
+          label: "Documento",
+          type: "text",
+          width: 35,
+          field: "NU_DOCUMENTO"
         }
       ]
     }

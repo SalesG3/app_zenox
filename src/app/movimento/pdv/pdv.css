@@ -102,3 +102,136 @@ input::-webkit-inner-spin-button {
     background-color: #116191;
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, .5);
 }
+
+/* ================================================== */
+/*  MODAL DE PAGAMENTO (DIALOG NATIVO)                */
+/* ================================================== */
+
+/* Estiliza a caixa principal do dialog e remove o visual padrão do navegador */
+dialog {
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: var(--bg-card, #ffffff);
+    
+    width: 45rem;
+    max-width: 90vw; /* Responsividade para telas menores */
+}
+
+/* O backdrop é o fundo escuro nativo que fica atrás do dialog */
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px); /* Efeito de desfoque moderno */
+}
+
+/* Container interno para dar respiro (padding) e alinhar os blocos */
+.dialogConfirm {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: .5rem;
+}
+
+/* ================================================== */
+/*  FORMULÁRIO DE INSERÇÃO                            */
+/* ================================================== */
+
+.modalForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end; /* Alinha os inputs pela base, ignorando o tamanho das labels */
+    
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Ajuste da estrutura do input-group para o modal */
+.modalForm .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.modalForm .input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Definindo larguras específicas para cada campo ficar proporcional */
+.modalForm .input-group:nth-child(1) { width: 8rem; }  /* Desconto */
+.modalForm .input-group:nth-child(2) { flex: 1; }      /* Método de Pagamento ocupa o meio */
+.modalForm .input-group:nth-child(3) { width: 10rem; } /* Valor da Parcela */
+
+/* ================================================== */
+/*  GRID DE PARCELAS ADICIONADAS                      */
+/* ================================================== */
+
+.modalGrid table{
+    border-collapse: collapse;
+    font-size: .9rem;
+    user-select: none;
+    width: 100%;
+
+    & td, th{
+        border-bottom: 1px solid #2c3e50;
+        text-align: left;
+        padding: .25rem;
+    }
+
+    & tr:nth-child(even), thead tr{
+        background-color: #dedede;
+    }
+}
+
+.modalGrid{
+    overflow-y: auto;
+    height: 7rem;
+}
+
+/* ================================================== */
+/*  BOTÕES DE AÇÃO (TOOLS)                            */
+/* ================================================== */
+
+.comp-tools{
+    display: flex;
+    padding: .5rem;
+}
+
+.btn-crud{
+    width: 12rem;
+    height: 2rem;
+    margin: .25rem;
+
+    color: white;
+    font-weight: bold;
+    font-size: .95rem;
+
+    opacity: .85;
+    transition: all .3s ease;
+
+    border: none;
+    border-radius: .25rem;
+    background-color: #116191;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, .5);
+}
+
+.btn-crud:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.btn-crud:disabled{
+    opacity: .5;
+    background-color: lightgray;
+    color: #2c3e50;
+    cursor: inherit;
+}
+
+.info{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+}

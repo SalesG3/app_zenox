@@ -24,6 +24,15 @@ export class Pdv implements OnInit{
     HISTORICO: 'Gerado via PDV'
   }
 
+  ID_METODO: any = {
+    "1": "Dinheiro",
+    "2": "PIX",
+    "3": "Débito",
+    "4": "Crédito",
+    "5": "Boleto",
+    "6": "Transferência"
+  }
+
   dataRead: any = {
     NM_PRODUTO: null,
     VL_PRODUTO: null,
@@ -31,13 +40,22 @@ export class Pdv implements OnInit{
     ID_PRODUTO: null
   }
 
+  dataParcela: any = {
+    CD_VENDA_PARCELA: 1,
+    ID_METODO_PAG: '',
+    VL_VENDA_PARCELA: ''
+  }
+
   qtdeItems: number = 0
   vlrItems: number = 0
+  vlrPagto: number = 0
   cdItem: number = 0
   dataLookups: any = {}
   dataClean: any = {}
+  dataCleanII: any = {}
 
   dataItems: any[] = []
+  dataParcelas: any[] = []
 
   @ViewChild('saveConfirm') saveConfirm !: ElementRef<HTMLDialogElement>
 
@@ -45,11 +63,13 @@ export class Pdv implements OnInit{
 
   async ngOnInit() {
     this.dataClean = this.dataRow
+    this.dataCleanII = this.dataParcela
     this.novaVenda()
   }
 
   async novaVenda(){
     this.dataRow = this.dataClean
+    this.dataParcela = this.dataCleanII
     this.dataRead = {
       NM_PRODUTO: null,
       VL_PRODUTO: null,
@@ -60,8 +80,10 @@ export class Pdv implements OnInit{
     this.qtdeItems = 0
     this.vlrItems = 0
     this.cdItem = 0
+    this.vlrPagto = 0
 
     this.dataItems = []
+    this.dataParcelas = []
     this.dataLookups.PESSOAS = await this.service.lookup("PESSOAS")
     this.dataLookups.PRODUTOS = await this.service.lookup("PRODUTOS_PDV")
     
@@ -109,6 +131,31 @@ export class Pdv implements OnInit{
     })
   }
 
+  adicionarPagto(){
+    if(!this.dataParcela.ID_METODO_PAG || !this.dataParcela.VL_VENDA_PARCELA) return
+    
+    let playLoad = {
+      CD_VENDA_PARCELA: this.dataParcela.CD_VENDA_PARCELA,
+      DT_VENDA_PARCELA: new Date().toLocaleDateString('en-CA'),
+      DT_PAGAMENTO: new Date().toLocaleDateString('en-CA'),
+      ID_METODO_PAG: this.dataParcela.ID_METODO_PAG,
+      VL_VENDA_PARCELA: this.dataParcela.VL_VENDA_PARCELA,
+      NU_DOCUMENTO: ''
+    }
+
+    this.vlrPagto += this.dataParcela.VL_VENDA_PARCELA
+
+    this.dataParcelas.push(playLoad)
+
+    this.dataParcela = {
+      CD_VENDA_PARCELA: this.dataParcela.CD_VENDA_PARCELA+ 1,
+      ID_METODO_PAG: '',
+      VL_VENDA_PARCELA: ''
+    }
+
+    this.cdr.detectChanges()
+  }
+
   async salvarVenda(){
     let subGrid = []
     for(let i of this.dataItems){
@@ -120,7 +167,7 @@ export class Pdv implements OnInit{
       })
     }
 
-    let data = await this.service.insert("VENDAS", this.dataRow, {"VENDA_PRODUTO": subGrid});
+    let data = await this.service.insert("VENDAS", this.dataRow, {"VENDA_PRODUTO": subGrid, "VENDA_PARCELA": this.dataParcelas});
     alert(data.message)
     this.saveConfirm.nativeElement.close()
 
@@ -129,9 +176,22 @@ export class Pdv implements OnInit{
     }
   }
 
+  cancelarPagto(){
+    this.dataParcela = {
+      CD_VENDA_PARCELA: 1,
+      ID_METODO_PAG: '',
+      VL_VENDA_PARCELA: ''
+    }
+
+    this.vlrPagto = 0
+    this.dataParcelas = []
+    this.saveConfirm.nativeElement.close()
+  }
+
   @HostListener('document:keydown.f2', ['$event'])
   async salvarVendaF2(event: Event){
     event.preventDefault()
+    this.dataParcela.VL_VENDA_PARCELA = this.vlrItems
     this.saveConfirm.nativeElement.showModal()
   }
 
@@ -148,6 +208,16 @@ export class Pdv implements OnInit{
   cancelarVendaF3(event: Event){
     event.preventDefault()
     this.novaVenda()
+  }
+
+  @HostListener('document:keydown.f6', ['$event'])
+  async finalizarVendaF6(event: Event){
+    event.preventDefault()
+    if(this.vlrItems - this.vlrPagto - this.dataRow.VL_DESCONTO == 0){
+      await this.salvarVenda()
+    }else{
+      this.adicionarPagto()
+    }
   }
 
 }

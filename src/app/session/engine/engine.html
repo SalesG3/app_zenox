@@ -109,6 +109,7 @@
                 <tr
                 *ngFor="let item of dataGrid" id="item[dataKey]"
                 (click)="dataRow[dataKey] = item[dataKey]"
+                (dblclick)="btnConsultar()"
                 [ngClass]="{'selected' : dataRow[dataKey] === item[dataKey]}"
                 >
                     <td
